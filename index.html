@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nature Power - Creator Community & Tracking</title>
+    <title>Nature Power - Craftaway.space 2026</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,117 +23,170 @@
         }
     </script>
     <style>
-        body { font-family: 'Noto Sans Thai', sans-serif; background-color: #f7f9fc; }
+        body { font-family: 'Noto Sans Thai', sans-serif; background-color: #f7f9fc; overflow-y: auto; }
         .tab-content { display: none; }
         .active { display: block; }
         .nav-btn.active-btn { border-bottom: 3px solid #2d6a4f; color: #2d6a4f; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        input:focus { border-color: #2d6a4f !important; outline: none; box-shadow: 0 0 0 2px rgba(45, 106, 79, 0.2); }
+        input:focus { border-color: #2d6a4f !important; outline: none; }
     </style>
 </head>
 <body class="max-w-md mx-auto shadow-2xl min-h-screen pb-24 relative bg-white">
 
-    <div class="h-44 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=800');">
-        <div class="absolute inset-0 bg-black/40 p-6 flex flex-col justify-end">
-            <div class="flex justify-between items-center text-white">
-                <div>
-                    <h1 class="text-2xl font-black font-sans uppercase tracking-tighter">Nature Power</h1>
-                    <p class="text-[10px] font-bold opacity-80 uppercase tracking-widest">Connect & Explore</p>
-                </div>
-                <button onclick="toggleLogin()" class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-md">
-                    <i class="fa-solid fa-user"></i>
-                </button>
-            </div>
+    <div class="absolute top-4 right-4 z-[60]">
+        <button onclick="toggleLogin()" class="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/30 shadow-lg">
+            <i class="fa-solid fa-user"></i>
+        </button>
+    </div>
+
+    <div class="h-48 bg-cover bg-center relative rounded-b-[2rem] overflow-hidden" style="background-image: url('https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?q=80&w=800');">
+        <div class="absolute inset-0 bg-black/30 p-6 flex flex-col justify-end">
+            <h1 class="text-3xl font-black font-sans uppercase tracking-tighter text-white">Nature Power</h1>
+            <p class="text-[10px] font-bold text-green-200 uppercase tracking-[0.2em]">Craftaway.space 2026</p>
         </div>
     </div>
 
     <nav class="flex overflow-x-auto whitespace-nowrap p-3 border-b border-gray-100 bg-white sticky top-0 z-50 no-scrollbar">
-        <button onclick="openTab('community')" class="nav-btn active-btn px-4 py-2 text-xs font-bold shrink-0">Community</button>
+        <button onclick="openTab('dining')" class="nav-btn active-btn px-4 py-2 text-xs font-bold shrink-0">บาร์ & ร้านอาหาร</button>
+        <button onclick="openTab('booking')" class="nav-btn px-4 py-2 text-xs font-bold shrink-0">จอง & Tracking</button>
         <button onclick="openTab('buddy')" class="nav-btn px-4 py-2 text-xs font-bold shrink-0">Travel Buddy</button>
-        <button onclick="openTab('tracking')" class="nav-btn px-4 py-2 text-xs font-bold shrink-0">Flight Tracking</button>
-        <button onclick="openTab('booking')" class="nav-btn px-4 py-2 text-xs font-bold shrink-0">Book Hotel</button>
+        <button onclick="openTab('analytics')" class="nav-btn px-4 py-2 text-xs font-bold shrink-0">AI Analytics</button>
     </nav>
 
     <main class="p-5">
         
-        <div id="community" class="tab-content active space-y-6">
+        <div id="dining" class="tab-content active space-y-6">
             <div class="flex justify-between items-center">
-                <h2 class="text-xl font-extrabold text-nat-dark">Creator Stories</h2>
-                <button class="bg-nat-green text-white px-3 py-1.5 rounded-full text-[10px] font-bold">+ Share Story</button>
+                <h2 class="text-xl font-extrabold text-nat-dark uppercase">Explore Bars</h2>
+                <span class="text-[10px] font-bold text-nat-accent uppercase">Japan & Asia</span>
             </div>
-            <div class="space-y-6">
-                <div class="bg-white rounded-3xl shadow-sm border border-gray-50 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=600" class="h-48 w-full object-cover">
-                    <div class="p-5">
-                        <div class="flex items-center gap-2 mb-3">
-                            <div class="w-6 h-6 rounded-full bg-nat-accent"></div>
-                            <span class="text-xs font-bold text-gray-700">@TravelWithMe</span>
+            <div id="restaurantContainer" class="space-y-6">
+                </div>
+        </div>
+
+        <div id="booking" class="tab-content space-y-8">
+            <div>
+                <h2 class="text-xl font-extrabold text-nat-dark mb-4 uppercase">Flight Tracking</h2>
+                <div class="bg-white p-5 rounded-3xl border border-gray-100 shadow-sm space-y-4">
+                    <div class="relative">
+                        <input type="text" id="flightNo" class="w-full p-4 bg-gray-50 rounded-xl border-none uppercase font-bold font-sans" placeholder="Flight No. (e.g., JL708)">
+                        <button onclick="trackFlight()" class="absolute right-2 top-2 bg-nat-green text-white p-2.5 rounded-lg">Check</button>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h2 class="text-xl font-extrabold text-nat-dark mb-4 uppercase">Hotel Booking</h2>
+                <div class="grid grid-cols-1 gap-3">
+                    <div onclick="window.open('https://th.trip.com')" class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between cursor-pointer">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center font-black italic">T</div>
+                            <span class="font-bold text-sm">Trip.com</span>
                         </div>
-                        <h3 class="font-bold text-sm mb-2 uppercase">Hidden Gem in Kyoto: 5 Bars you must go</h3>
-                        <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed">แชร์พิกัดบาร์ลับในเกียวโตที่นักท่องเที่ยวส่วนใหญ่ยังไม่รู้...</p>
-                        <div class="mt-4 flex justify-between items-center border-t pt-4">
-                            <span class="text-[10px] text-gray-400"><i class="fa-solid fa-heart mr-1"></i> 1.2k</span>
-                            <button class="text-nat-green font-bold text-[10px] underline">Read More</button>
+                        <i class="fa-solid fa-arrow-right text-gray-300"></i>
+                    </div>
+                    <div onclick="window.open('https://www.booking.com')" class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between cursor-pointer">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 bg-indigo-50 text-indigo-700 rounded-lg flex items-center justify-center font-black italic">B</div>
+                            <span class="font-bold text-sm">Booking.com</span>
                         </div>
+                        <i class="fa-solid fa-arrow-right text-gray-300"></i>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div id="buddy" class="tab-content space-y-6">
-            <h2 class="text-xl font-extrabold text-nat-dark uppercase">Travel Buddy in Shinjuku</h2>
-            <div class="bg-nat-light p-5 rounded-3xl text-center border border-green-100">
-                <p class="text-xs font-bold text-nat-green mb-4">ตอนนี้มีผู้ใช้ 12 คน อยู่ในย่านเดียวกับคุณ!</p>
-                <div class="flex -space-x-2 justify-center mb-6">
-                    <div class="w-10 h-10 rounded-full border-2 border-white bg-nat-accent flex items-center justify-center text-white text-xs font-bold">M</div>
-                    <div class="w-10 h-10 rounded-full border-2 border-white bg-nat-green flex items-center justify-center text-white text-xs font-bold">P</div>
-                    <div class="w-10 h-10 rounded-full border-2 border-white bg-gray-400 flex items-center justify-center text-white text-xs font-bold">+9</div>
+        <div id="buddy" class="tab-content space-y-8">
+            <h2 class="text-xl font-extrabold text-nat-dark uppercase">Community Buddy</h2>
+            
+            <div class="bg-nat-light p-6 rounded-3xl text-center border border-green-100">
+                <p class="text-xs font-bold text-nat-green mb-4 uppercase tracking-widest">Buddies in Shinjuku Now</p>
+                <div class="flex -space-x-3 justify-center mb-6">
+                    <div class="w-12 h-12 rounded-full border-4 border-white bg-nat-accent flex items-center justify-center text-white text-xs font-bold">M</div>
+                    <div class="w-12 h-12 rounded-full border-4 border-white bg-nat-green flex items-center justify-center text-white text-xs font-bold">P</div>
+                    <div class="w-12 h-12 rounded-full border-4 border-white bg-gray-400 flex items-center justify-center text-white text-xs font-bold">+5</div>
                 </div>
-                <button class="w-full bg-nat-dark text-white font-black py-4 rounded-xl shadow-lg">ทักหาเพื่อนเที่ยวรอบข้าง</button>
+                <button class="w-full bg-nat-dark text-white font-black py-4 rounded-xl shadow-lg uppercase text-xs tracking-widest">Find Travel Buddy</button>
+            </div>
+
+            <div>
+                <h2 class="text-xl font-extrabold text-nat-dark mb-4 uppercase">Upcoming Events</h2>
+                <div class="bg-white rounded-2xl border border-gray-100 p-4 flex gap-4 items-center mb-3 shadow-sm">
+                    <div class="bg-nat-light text-nat-green p-3 rounded-xl text-center min-w-[60px]">
+                        <p class="text-[10px] font-bold">DEC</p>
+                        <p class="text-lg font-black">24</p>
+                    </div>
+                    <div>
+                        <p class="font-bold text-sm">Christmas Eve Bar Crawl</p>
+                        <p class="text-[10px] text-gray-400 uppercase">Shinjuku • 10 People Going</p>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div id="tracking" class="tab-content space-y-6">
-            <h2 class="text-xl font-extrabold text-nat-dark">Real-time Flight Tracking</h2>
+        <div id="analytics" class="tab-content space-y-6">
+            <h2 class="text-xl font-extrabold text-nat-dark uppercase tracking-tighter">AI Expense Analytics</h2>
             <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm space-y-4">
-                <div class="relative">
-                    <input type="text" id="flightNo" class="w-full p-4 bg-gray-50 rounded-xl border-none uppercase font-bold" placeholder="Flight No. (e.g., JL708)">
-                    <button onclick="trackFlight()" class="absolute right-2 top-2 bg-nat-green text-white p-2.5 rounded-lg">Check</button>
+                <div class="grid grid-cols-2 gap-3">
+                    <input type="number" id="expFlight" class="w-full p-4 bg-gray-50 rounded-xl" placeholder="ตั๋วเครื่องบิน">
+                    <input type="number" id="expHotel" class="w-full p-4 bg-gray-50 rounded-xl" placeholder="ที่พัก">
                 </div>
-                <p class="text-[10px] text-gray-400 italic leading-relaxed text-center font-medium">แอปจะทำการดึงข้อมูลเที่ยวบินล่าสุดจากระบบ Global Aviation Data</p>
-            </div>
-        </div>
-
-        <div id="booking" class="tab-content space-y-6">
-            <h2 class="text-xl font-extrabold text-nat-dark">Partner Bookings</h2>
-            <p class="text-xs text-gray-500 font-medium">จองโรงแรมผ่านพาร์ทเนอร์ของเราเพื่อรับแต้ม Gems Points พิเศษ</p>
-            <div class="grid grid-cols-1 gap-4">
-                <div onclick="window.open('https://th.trip.com')" class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm flex items-center justify-between cursor-pointer hover:bg-nat-light transition-all">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600 font-black text-xl italic">T</div>
-                        <div>
-                            <p class="font-bold text-sm">Trip.com</p>
-                            <p class="text-[10px] text-gray-400">Best Price Guaranteed</p>
-                        </div>
-                    </div>
-                    <i class="fa-solid fa-chevron-right text-gray-300"></i>
-                </div>
-                <div onclick="window.open('https://www.booking.com')" class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm flex items-center justify-between cursor-pointer hover:bg-nat-light transition-all">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-800 font-black text-xl italic">B</div>
-                        <div>
-                            <p class="font-bold text-sm">Booking.com</p>
-                            <p class="text-[10px] text-gray-400">Flexibility & Support</p>
-                        </div>
-                    </div>
-                    <i class="fa-solid fa-chevron-right text-gray-300"></i>
+                <input type="number" id="expFood" class="w-full p-4 bg-gray-50 rounded-xl" placeholder="อาหาร & บาร์">
+                <button onclick="analyzeExpenses()" class="w-full bg-nat-green text-white font-black py-4 rounded-xl shadow-lg">Analyze Spending</button>
+                <div id="aiResult" class="hidden pt-4 border-t border-gray-100">
+                    <p class="text-[10px] font-bold text-nat-accent uppercase mb-1">AI Report</p>
+                    <p id="insightText" class="text-xs text-gray-600 leading-relaxed italic"></p>
                 </div>
             </div>
         </div>
-
     </main>
 
+    <footer class="p-8 text-center bg-gray-50 border-t border-gray-100">
+        <p class="text-[10px] font-bold text-gray-400 tracking-[0.3em] uppercase">© Craftaway.space 2026</p>
+    </footer>
+
     <script>
+        const restaurants = [
+            { name: "Bar Benfiddich", region: "Tokyo", type: "Bar", vibe: "Farm-to-Glass Experience", mbti: "INFJ, INTJ", price: "💰💰💰", img: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=600", hd: "Projector" },
+            { name: "Virtù", region: "Tokyo", vibe: "French-Japanese Luxury", mbti: "ENFJ, ENTJ", price: "💰💰💰💰", img: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=600", hd: "Manifestor" },
+            { name: "The SG Club", region: "Shibuya", vibe: "World's 50 Best Bar", mbti: "ENFP, ENTP", price: "💰💰💰", img: "https://images.unsplash.com/photo-1470337458703-46ad1756a187?q=80&w=600", hd: "Generator" },
+            { name: "Golden Gai", region: "Shinjuku", vibe: "Iconic Alleyway Bars", mbti: "ESTP, ESFP", price: "💰", img: "https://images.unsplash.com/photo-1582236209995-f1262d596489?q=80&w=600", hd: "Manifesting Generator" }
+        ];
+
+        function renderRestaurants() {
+            const container = document.getElementById('restaurantContainer');
+            restaurants.forEach(res => {
+                const html = `
+                <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                    <img src="${res.img}" class="h-44 w-full object-cover">
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-1">
+                            <h3 class="text-lg font-bold text-nat-dark uppercase font-sans tracking-tighter">${res.name}</h3>
+                            <span class="text-nat-green font-bold text-sm">${res.price}</span>
+                        </div>
+                        <p class="text-[9px] text-nat-accent font-bold uppercase tracking-widest mb-3">${res.region} • ${res.type}</p>
+                        <p class="text-xs text-gray-500 mb-4 leading-relaxed">${res.vibe}</p>
+                        <div class="flex justify-between items-center pt-4 border-t border-gray-50">
+                            <div class="flex gap-2">
+                                <span class="text-[8px] bg-nat-light text-nat-green px-2 py-1 rounded font-bold uppercase">${res.mbti}</span>
+                                <span class="text-[8px] bg-indigo-50 text-indigo-700 px-2 py-1 rounded font-bold uppercase">${res.hd}</span>
+                            </div>
+                            <button onclick="window.open('https://www.google.com/maps/search/${res.name}')" class="text-[10px] font-bold text-nat-dark underline uppercase">Map</button>
+                        </div>
+                    </div>
+                </div>`;
+                container.insertAdjacentHTML('beforeend', html);
+            });
+        }
+
+        function analyzeExpenses() {
+            const fo = parseFloat(document.getElementById('expFood').value) || 0;
+            if(fo > 0) {
+                document.getElementById('aiResult').classList.remove('hidden');
+                document.getElementById('insightText').innerText = "AI วิเคราะห์ว่าคุณเป็น 'Experience Seeker' ตัวจริง! การใช้จ่ายกับบาร์และอาหารสะท้อนถึงการออกแบบพลังงานแบบคุณที่ให้ค่ากับรสสัมผัสและบรรยากาศ...";
+            }
+        }
+
         function openTab(tabName) {
             const contents = document.getElementsByClassName("tab-content");
             for (let c of contents) { c.style.display = "none"; }
@@ -145,14 +198,13 @@
         }
 
         function trackFlight() {
-            const flight = document.getElementById('flightNo').value;
-            if(!flight) return alert("กรุณากรอกเลขเที่ยวบินครับ");
-            window.open(`https://www.google.com/search?q=flight+status+${flight}`, '_blank');
+            const f = document.getElementById('flightNo').value;
+            if(f) window.open(`https://www.google.com/search?q=flight+status+${f}`, '_blank');
         }
 
-        function toggleLogin() {
-            alert("ฟีเจอร์ Login & Profile จะพร้อมใช้งานในเร็วๆ นี้");
-        }
+        function toggleLogin() { alert("Login Profile: Craftaway Member Access (Coming Soon)"); }
+
+        renderRestaurants();
     </script>
 </body>
 </html>
