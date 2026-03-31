@@ -16,7 +16,14 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: { 'nat-green': '#2d6a4f', 'nat-light': '#f0f4f1', 'nat-accent': '#d8573b', 'nat-dark': '#1b4332' },
+                    colors: { 
+                        'nat-green': '#2d6a4f', 
+                        'nat-light': '#f0f4f1', 
+                        'nat-accent': '#d8573b', 
+                        'nat-dark': '#1b4332',
+                        'music-theme': '#1DB954',
+                        'art-theme': '#8338ec'
+                    },
                     fontFamily: { 'thai': ['Noto Sans Thai', 'sans-serif'], 'sans': ['Inter', 'sans-serif'] }
                 }
             }
@@ -29,6 +36,7 @@
         .nav-btn.active-btn { border-bottom: 3px solid #2d6a4f; color: #2d6a4f; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         input:focus, select:focus { border-color: #2d6a4f !important; outline: none; }
+        .filter-active { background-color: #1b4332 !important; color: white !important; }
     </style>
 </head>
 <body class="max-w-md mx-auto shadow-2xl min-h-screen pb-24 relative bg-white">
@@ -56,7 +64,20 @@
     <main class="p-5">
         
         <div id="dining" class="tab-content active space-y-6">
-            <h2 class="text-xl font-extrabold text-nat-dark uppercase">Recommended Places</h2>
+            <div class="flex justify-between items-center">
+                <h2 class="text-xl font-extrabold text-nat-dark uppercase">Recommended</h2>
+                <div class="flex gap-1 overflow-x-auto no-scrollbar">
+                    <button onclick="filterByCreative('All')" class="filter-btn filter-active px-3 py-1 rounded-full text-[9px] font-bold bg-gray-100 text-gray-500 uppercase">All</button>
+                    <button onclick="filterByCreative('Music Lover')" class="filter-btn px-3 py-1 rounded-full text-[9px] font-bold bg-gray-100 text-gray-500 uppercase">Music</button>
+                    <button onclick="filterByCreative('Art Collector')" class="filter-btn px-3 py-1 rounded-full text-[9px] font-bold bg-gray-100 text-gray-500 uppercase">Art</button>
+                </div>
+            </div>
+
+            <div class="relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-gray-300 text-xs"></i>
+                <input type="text" id="placeSearch" onkeyup="searchPlaces()" placeholder="ค้นหาชื่อร้านหรือย่าน..." class="w-full pl-10 pr-4 py-3 bg-gray-50 rounded-2xl text-xs font-bold border border-transparent">
+            </div>
+
             <div id="restaurantContainer" class="space-y-6">
                 </div>
         </div>
@@ -83,7 +104,6 @@
 
         <div id="analytics" class="tab-content space-y-6">
             <h2 class="text-xl font-extrabold text-nat-dark uppercase">AI Expense Tracking</h2>
-            
             <div class="bg-nat-light p-6 rounded-[2rem] border border-green-100 space-y-4">
                 <div class="grid grid-cols-2 gap-3">
                     <input type="date" id="expDate" class="w-full p-4 bg-white rounded-xl text-xs font-bold">
@@ -116,20 +136,14 @@
         </div>
 
         <div id="booking" class="tab-content space-y-8">
-            <div>
-                <h2 class="text-xl font-extrabold text-nat-dark mb-4 uppercase">Track & Book</h2>
-                <div class="bg-white p-5 rounded-3xl border border-gray-100 shadow-sm flex gap-2">
-                    <input type="text" id="flightNo" class="flex-1 p-4 bg-gray-50 rounded-xl font-bold uppercase text-sm" placeholder="Flight No.">
-                    <button onclick="trackFlight()" class="bg-nat-green text-white px-6 rounded-xl font-black text-xs">Track</button>
-                </div>
+            <h2 class="text-xl font-extrabold text-nat-dark uppercase">Track & Book</h2>
+            <div class="bg-white p-5 rounded-3xl border border-gray-100 shadow-sm flex gap-2">
+                <input type="text" id="flightNo" class="flex-1 p-4 bg-gray-50 rounded-xl font-bold uppercase text-sm" placeholder="Flight No.">
+                <button onclick="trackFlight()" class="bg-nat-green text-white px-6 rounded-xl font-black text-xs">Track</button>
             </div>
             <div class="grid grid-cols-1 gap-3">
                 <div onclick="window.open('https://th.trip.com')" class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex justify-between items-center cursor-pointer">
                     <span class="font-bold text-sm text-blue-600 italic">Trip.com</span>
-                    <i class="fa-solid fa-chevron-right text-gray-200"></i>
-                </div>
-                <div onclick="window.open('https://www.booking.com')" class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex justify-between items-center cursor-pointer">
-                    <span class="font-bold text-sm text-indigo-700 italic">Booking.com</span>
                     <i class="fa-solid fa-chevron-right text-gray-200"></i>
                 </div>
             </div>
@@ -138,18 +152,8 @@
         <div id="buddy" class="tab-content space-y-8">
             <h2 class="text-xl font-extrabold text-nat-dark uppercase tracking-tighter">Community Hub</h2>
             <div class="bg-nat-light p-8 rounded-[2.5rem] text-center border border-green-100">
-                <p class="text-[10px] font-bold text-nat-green mb-6 uppercase tracking-widest">Connect with People Nearby</p>
+                <p class="text-[10px] font-bold text-nat-green mb-6 uppercase tracking-widest">Connect Nearby</p>
                 <button class="w-full bg-nat-dark text-white font-black py-4 rounded-2xl shadow-xl uppercase text-xs tracking-widest">Find Travel Buddy</button>
-            </div>
-            <div>
-                <h3 class="text-sm font-black text-nat-dark mb-4 uppercase tracking-widest">Events</h3>
-                <div class="bg-white p-4 rounded-2xl border border-gray-50 shadow-sm flex gap-4 items-center">
-                    <div class="bg-nat-accent/10 text-nat-accent p-3 rounded-xl text-center min-w-[60px]">
-                        <p class="text-[10px] font-bold">JAN</p>
-                        <p class="text-lg font-black leading-none">05</p>
-                    </div>
-                    <p class="font-bold text-xs uppercase">Shibuya Countdown Gathering</p>
-                </div>
             </div>
         </div>
 
@@ -160,70 +164,87 @@
     </footer>
 
     <script>
-        const restaurants = [
-            { name: "Bar Benfiddich", region: "Tokyo", type: "Bar", vibe: "Farm-to-Glass Experience", mbti: "INFJ, INTJ", price: "💰💰💰", img: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=600", hd: "Projector" },
-            { name: "Virtù", region: "Tokyo", vibe: "French-Japanese Luxury", mbti: "ENFJ, ENTJ", price: "💰💰💰💰", img: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=600", hd: "Manifestor" }
+        // ข้อมูลตัวอย่าง (จะถูกแทนที่ด้วย fetch('data.json') เมื่อนำขึ้น GitHub)
+        let allPlaces = [
+            { name: "Bar Benfiddich", area: "Shinjuku", type: "Bar", vibe: "Farm-to-Glass Experience", mbti: "INFJ, INTJ", hd: "Reflector", energy: "Low (Deep Immersive)", filter: "Art Collector", price: "💰💰💰", img: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=600" },
+            { name: "Wagakki Bar Ryu Guw", area: "Koenji", type: "Bar", vibe: "Traditional Japanese Strings", mbti: "INFJ, ISTP", hd: "Projector", energy: "Low (Focused)", filter: "Music Lover", price: "💰💰💰", img: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=600" },
+            { name: "nanca", area: "Shimokitazawa", type: "Restaurant", vibe: "Fusion Izakaya & Creative Arts", mbti: "INFP, ISFP", hd: "Projector", energy: "Low (Immersive)", filter: "Art Collector", price: "💰💰💰", img: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=600" }
         ];
 
+        let currentFilter = 'All';
         let expenses = [];
 
-        function addExpense() {
-            const date = document.getElementById('expDate').value;
-            const cat = document.getElementById('expCat').value;
-            const amt = document.getElementById('expAmount').value;
-            if(!date || !amt) return alert("กรุณาระบุวันที่และจำนวนเงิน");
-
-            expenses.push({ date, cat, amt: parseFloat(amt) });
-            renderExpenses();
-            analyzeExpenses();
-            document.getElementById('expAmount').value = "";
+        // ฟังก์ชันโหลดข้อมูล (กรณีใช้ไฟล์ JSON ภายนอกบน GitHub)
+        /*
+        async function loadData() {
+            const response = await fetch('data.json');
+            allPlaces = await response.json();
+            renderRestaurants(allPlaces);
         }
+        */
 
-        function renderExpenses() {
-            const list = document.getElementById('expenseList');
-            list.innerHTML = "";
-            expenses.forEach((e, index) => {
-                list.innerHTML += `
-                <div class="bg-white p-4 rounded-2xl border border-gray-100 flex justify-between items-center shadow-sm">
-                    <div>
-                        <p class="text-[10px] font-bold text-nat-green uppercase tracking-widest mb-1">${e.cat} • ${e.date}</p>
-                        <p class="font-black text-nat-dark">${e.amt.toLocaleString()} THB</p>
-                    </div>
-                    <button onclick="expenses.splice(${index}, 1); renderExpenses();" class="text-gray-200 hover:text-red-400"><i class="fa-solid fa-circle-xmark"></i></button>
-                </div>`;
-            });
-        }
-
-        function analyzeExpenses() {
-            if(expenses.length === 0) return;
-            document.getElementById('aiInsightBox').classList.remove('hidden');
-            const total = expenses.reduce((sum, e) => sum + e.amt, 0);
-            document.getElementById('insightText').innerText = `จากข้อมูลทั้งหมด ${expenses.length} รายการ (รวม ${total.toLocaleString()} THB) AI วิเคราะห์ว่าคุณจัดลำดับความสำคัญของค่าใช้จ่ายได้ดี สอดคล้องกับ Human Design ของคุณในการหาประสบการณ์ที่คุ้มค่า...`;
-        }
-
-        function renderRestaurants() {
+        function renderRestaurants(data) {
             const container = document.getElementById('restaurantContainer');
-            restaurants.forEach(res => {
+            container.innerHTML = "";
+            
+            data.forEach(res => {
+                // เลือกสีธีมตาม Filter
+                const themeClass = res.filter === 'Music Lover' ? 'border-music-theme' : (res.filter === 'Art Collector' ? 'border-art-theme' : 'border-gray-100');
+                const themeTag = res.filter === 'Music Lover' ? 'bg-music-theme' : (res.filter === 'Art Collector' ? 'bg-art-theme' : 'bg-nat-green');
+
                 container.innerHTML += `
-                <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-                    <img src="${res.img}" class="h-44 w-full object-cover">
+                <div class="bg-white rounded-3xl shadow-sm border-l-4 ${themeClass} border-y border-r border-gray-50 overflow-hidden transition-all active:scale-95">
+                    <img src="${res.img || 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=600'}" class="h-40 w-full object-cover">
                     <div class="p-5">
                         <div class="flex justify-between items-start mb-1">
                             <h3 class="text-lg font-bold text-nat-dark uppercase font-sans tracking-tighter">${res.name}</h3>
-                            <span class="text-nat-green font-bold text-sm">${res.price}</span>
+                            <span class="text-nat-green font-bold text-xs">${res.price}</span>
                         </div>
-                        <p class="text-[9px] text-nat-accent font-bold uppercase tracking-widest mb-3">${res.region} • ${res.type}</p>
-                        <p class="text-xs text-gray-500 mb-4 leading-relaxed font-medium">${res.vibe}</p>
+                        <div class="flex items-center gap-2 mb-3">
+                             <span class="${themeTag} text-white text-[8px] px-2 py-0.5 rounded-full font-black uppercase tracking-tighter">${res.filter}</span>
+                             <p class="text-[9px] text-gray-400 font-bold uppercase tracking-widest">${res.area} • ${res.type}</p>
+                        </div>
+                        <p class="text-xs text-gray-500 mb-4 leading-relaxed font-medium italic">"${res.vibe}"</p>
+                        
                         <div class="flex justify-between items-center pt-4 border-t border-gray-50">
-                            <div class="flex gap-2">
-                                <span class="text-[8px] bg-nat-light text-nat-green px-2 py-1 rounded font-bold uppercase">${res.mbti}</span>
-                                <span class="text-[8px] bg-indigo-50 text-indigo-700 px-2 py-1 rounded font-bold uppercase">${res.hd}</span>
+                            <div class="flex gap-1.5">
+                                <div class="text-center">
+                                    <p class="text-[7px] text-gray-400 font-bold uppercase">Energy</p>
+                                    <span class="text-[8px] bg-nat-light text-nat-green px-2 py-1 rounded-lg font-bold uppercase">${res.energy}</span>
+                                </div>
+                                <div class="text-center">
+                                    <p class="text-[7px] text-gray-400 font-bold uppercase">Human Design</p>
+                                    <span class="text-[8px] bg-indigo-50 text-indigo-700 px-2 py-1 rounded-lg font-bold uppercase">${res.hd}</span>
+                                </div>
                             </div>
-                            <button onclick="window.open('https://www.google.com/maps/search/${res.name}')" class="text-[10px] font-bold text-nat-dark underline uppercase">Map</button>
+                            <button onclick="window.open('https://www.google.com/maps/search/${res.name} ${res.area}')" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-nat-dark"><i class="fa-solid fa-location-dot text-xs"></i></button>
                         </div>
                     </div>
                 </div>`;
             });
+        }
+
+        function filterByCreative(type) {
+            currentFilter = type;
+            const btns = document.querySelectorAll('.filter-btn');
+            btns.forEach(b => b.classList.remove('filter-active'));
+            event.target.classList.add('filter-active');
+
+            if(type === 'All') {
+                renderRestaurants(allPlaces);
+            } else {
+                const filtered = allPlaces.filter(p => p.filter === type);
+                renderRestaurants(filtered);
+            }
+        }
+
+        function searchPlaces() {
+            const query = document.getElementById('placeSearch').value.toLowerCase();
+            const searched = allPlaces.filter(p => 
+                (p.name.toLowerCase().includes(query) || p.area.toLowerCase().includes(query)) &&
+                (currentFilter === 'All' || p.filter === currentFilter)
+            );
+            renderRestaurants(searched);
         }
 
         function openTab(tabName) {
@@ -236,14 +257,48 @@
             window.scrollTo(0,0);
         }
 
+        function addExpense() {
+            const date = document.getElementById('expDate').value;
+            const cat = document.getElementById('expCat').value;
+            const amt = document.getElementById('expAmount').value;
+            if(!date || !amt) return alert("กรุณาระบุข้อมูลให้ครบ");
+            expenses.push({ date, cat, amt: parseFloat(amt) });
+            renderExpenses();
+            analyzeExpenses();
+            document.getElementById('expAmount').value = "";
+        }
+
+        function renderExpenses() {
+            const list = document.getElementById('expenseList');
+            list.innerHTML = expenses.length ? "" : '<p class="text-center text-[10px] text-gray-400 py-4 font-bold">ยังไม่มีข้อมูล</p>';
+            expenses.forEach((e, i) => {
+                list.innerHTML += `
+                <div class="bg-white p-4 rounded-2xl border border-gray-100 flex justify-between items-center shadow-sm">
+                    <div>
+                        <p class="text-[10px] font-bold text-nat-green uppercase tracking-widest mb-1">${e.cat} • ${e.date}</p>
+                        <p class="font-black text-nat-dark">${e.amt.toLocaleString()} THB</p>
+                    </div>
+                    <button onclick="expenses.splice(${i}, 1); renderExpenses();" class="text-gray-200 hover:text-red-400"><i class="fa-solid fa-circle-xmark"></i></button>
+                </div>`;
+            });
+        }
+
+        function analyzeExpenses() {
+            if(!expenses.length) return;
+            document.getElementById('aiInsightBox').classList.remove('hidden');
+            const total = expenses.reduce((sum, e) => sum + e.amt, 0);
+            document.getElementById('insightText').innerText = `รวมยอดใช้จ่าย ${total.toLocaleString()} THB AI พบว่าคุณใช้จ่ายไปกับประสบการณ์ระดับ "Art Collector" สูง ซึ่งตรงกับพลังงาน Projector ของคุณในทริปนี้...`;
+        }
+
         function trackFlight() {
             const f = document.getElementById('flightNo').value;
             if(f) window.open(`https://www.google.com/search?q=flight+status+${f}`, '_blank');
         }
 
-        function toggleLogin() { alert("Member Access: Coming Soon"); }
+        function toggleLogin() { alert("Creative Access Activated"); }
 
-        renderRestaurants();
+        // เริ่มต้นแสดงผล
+        renderRestaurants(allPlaces);
     </script>
 </body>
 </html>
