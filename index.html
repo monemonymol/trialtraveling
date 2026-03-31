@@ -7,102 +7,76 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f7f9fc; } /* Light blue-gray background */
+        body { font-family: 'Inter', sans-serif; background-color: #f7f9fc; }
         .tab-content { display: none; }
         .active { display: block; }
-        /* Focus color for inputs */
-        input:focus { ring-color: #d8573b !important; border-color: #d8573b !important; }
+        input:focus { outline: none; border-color: #d8573b !important; ring: 2px; ring-color: #d8573b; }
     </style>
 </head>
-<body class="max-w-md mx-auto shadow-xl min-h-screen pb-20 border border-green-50 rounded-2xl">
+<body class="max-w-md mx-auto shadow-xl min-h-screen pb-24 relative border border-green-50 rounded-2xl">
 
     <header class="bg-[#2c4e3a] text-white p-6 rounded-b-3xl text-center shadow-md relative overflow-hidden">
         <h1 class="text-3xl font-black tracking-tight" style="color: #d8573b; -webkit-text-stroke: 1px white;">Safe & Smart</h1>
         <p class="text-lg font-bold text-green-100">Travel Companion 🌏</p>
-        <div class="absolute -bottom-6 -right-6 w-16 h-16 bg-[#d8573b] rounded-full opacity-70"></div>
     </header>
 
-    <nav class="flex justify-around bg-white my-5 mx-4 p-3 rounded-2xl shadow-sm border border-green-100">
-        <button onclick="openTab('budget')" class="text-green-800 font-bold p-3 rounded-xl focus:bg-green-50 flex flex-col items-center gap-1">
-            <i class="fa-solid fa-wallet text-xl" style="color: #d8573b;"></i>
-            <span class="text-xs">คุมงบ</span>
-        </button>
-        <button onclick="openTab('safe')" class="text-green-800 font-bold p-3 rounded-xl focus:bg-green-50 flex flex-col items-center gap-1">
-            <i class="fa-solid fa-shield-halved text-xl" style="color: #d8573b;"></i>
-            <span class="text-xs">กู้ชีพ</span>
-        </button>
-        <button onclick="openTab('info')" class="text-green-800 font-bold p-3 rounded-xl focus:bg-green-50 flex flex-col items-center gap-1">
-            <i class="fa-solid fa-circle-info text-xl" style="color: #d8573b;"></i>
-            <span class="text-xs">ระวังโกง</span>
-        </button>
+    <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white flex justify-around p-3 shadow-[0_-4px_10px_rgba(0,0,0,0.05)] rounded-t-3xl border-t border-green-100 z-50">
+        <button onclick="openTab('budget')" class="text-green-800 font-bold flex flex-col items-center"><i class="fa-solid fa-wallet text-xl" style="color: #d8573b;"></i><span class="text-[10px]">คุมงบ</span></button>
+        <button onclick="openTab('flight')" class="text-green-800 font-bold flex flex-col items-center"><i class="fa-solid fa-plane-up text-xl" style="color: #d8573b;"></i><span class="text-[10px]">เที่ยวบิน</span></button>
+        <button onclick="openTab('explore')" class="text-green-800 font-bold flex flex-col items-center"><i class="fa-solid fa-map-location-dot text-xl" style="color: #d8573b;"></i><span class="text-[10px]">ใกล้ฉัน</span></button>
+        <button onclick="openTab('safe')" class="text-green-800 font-bold flex flex-col items-center"><i class="fa-solid fa-shield-halved text-xl" style="color: #d8573b;"></i><span class="text-[10px]">กู้ชีพ</span></button>
     </nav>
 
     <div id="budget" class="tab-content active p-6">
-        <div class="bg-white p-7 rounded-3xl shadow-sm border border-green-50">
-            <h2 class="text-xl font-black mb-5" style="color: #2c4e3a;">💰 คำนวณงบรายวัน</h2>
+        <div class="bg-white p-6 rounded-3xl shadow-sm border border-green-50 mb-4">
+            <h2 class="text-xl font-black mb-4" style="color: #2c4e3a;">💰 คำนวณงบรายวัน</h2>
             <div class="space-y-4">
-                <div>
-                    <label class="block text-sm font-semibold text-green-800">งบทั้งหมดที่มี (บาท)</label>
-                    <input type="number" id="totalBudget" class="w-full p-3.5 bg-green-50/50 rounded-xl border border-green-100 focus:ring-2" placeholder="เช่น 30000">
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold text-green-800">ค่าเรทแลกเงิน (เช่น 1 JPY = ? บาท)</label>
-                    <input type="number" id="rate" step="0.01" class="w-full p-3.5 bg-green-50/50 rounded-xl border border-green-100 focus:ring-2" placeholder="เช่น 0.23">
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold text-green-800">จำนวนวันที่ไป</label>
-                    <input type="number" id="days" class="w-full p-3.5 bg-green-50/50 rounded-xl border border-green-100 focus:ring-2" placeholder="เช่น 7">
-                </div>
-                <button onclick="calcBudget()" class="w-full bg-[#d8573b] text-white font-black text-lg py-4 rounded-xl hover:bg-green-800 transition shadow-md">คำนวณเงินต่อวัน</button>
+                <input type="number" id="totalBudget" class="w-full p-3.5 bg-green-50/50 rounded-xl border border-green-100" placeholder="งบทั้งหมด (บาท)">
+                <input type="number" id="rate" step="0.01" class="w-full p-3.5 bg-green-50/50 rounded-xl border border-green-100" placeholder="เรทเงิน (เช่น 0.23)">
+                <input type="number" id="days" class="w-full p-3.5 bg-green-50/50 rounded-xl border border-green-100" placeholder="จำนวนวัน">
+                <button onclick="calcBudget()" class="w-full bg-[#d8573b] text-white font-black py-4 rounded-xl shadow-md">คำนวณเงิน</button>
             </div>
-            <div id="result" class="mt-8 text-center hidden p-6 bg-green-50 rounded-2xl border border-green-100">
-                <p class="text-sm font-semibold text-green-800">คุณใช้เงินได้เฉลี่ยวันละ:</p>
-                <h3 id="dailyAmount" class="text-4xl font-black mt-1" style="color: #d8573b;"></h3>
+            <div id="result" class="mt-6 text-center hidden p-4 bg-green-50 rounded-2xl border border-green-100">
+                <h3 id="dailyAmount" class="text-3xl font-black" style="color: #d8573b;"></h3>
                 <p id="currencyResult" class="text-xs text-green-600 mt-1 font-bold"></p>
             </div>
         </div>
     </div>
 
-    <div id="safe" class="tab-content p-6 space-y-5">
-        <h2 class="text-xl font-black" style="color: #2c4e3a;">🆘 บัตรช่วยชีวิต (ยื่นให้คนท้องถิ่น)</h2>
+    <div id="flight" class="tab-content p-6">
         <div class="bg-white p-6 rounded-3xl shadow-sm border border-green-50">
-            <h4 class="font-bold text-green-800">แจ้งเหตุฉุกเฉิน</h4>
-            <p class="text-[#d8573b] text-2xl font-extrabold mt-2">たすけてください</p>
-            <p class="text-xs text-green-600 italic">"Tasukete kudasai" - กรุณาช่วยฉันด้วย</p>
+            <h2 class="text-xl font-black mb-4" style="color: #2c4e3a;">✈️ เช็กสถานะเที่ยวบิน</h2>
+            <p class="text-sm text-green-700 mb-4 font-semibold italic">* ใส่เลขเที่ยวบินเพื่อดูเวลาดีเลย์และประตูทางออก</p>
+            <input type="text" id="flightNo" class="w-full p-3.5 bg-green-50/50 rounded-xl border border-green-100 mb-4 uppercase" placeholder="เช่น JL708 หรือ TG672">
+            <button onclick="trackFlight()" class="w-full bg-[#2c4e3a] text-white font-black py-4 rounded-xl shadow-md">Track Flight</button>
         </div>
-        <div class="bg-white p-6 rounded-3xl shadow-sm border border-green-50">
-            <h4 class="font-bold text-green-800">แจ้งการเจ็บป่วย</h4>
-            <p class="text-[#d8573b] text-2xl font-extrabold mt-2">びょういんにいきたいです</p>
-            <p class="text-xs text-green-600 italic">"Byouin ni ikitai desu" - ฉันต้องการไปโรงพยาบาล</p>
-        </div>
-        <a href="tel:110" class="block w-full bg-red-600 text-white text-center font-black text-lg py-4 rounded-xl shadow-lg hover:bg-red-700 transition">📞 โทรแจ้งตำรวจ (ญี่ปุ่น 110)</a>
     </div>
 
-    <div id="info" class="tab-content p-6 space-y-5">
-        <h2 class="text-xl font-black" style="color: #2c4e3a;">⚠️ กลโกงที่ต้องระวัง (ญี่ปุ่น)</h2>
-        <div class="bg-white p-5 rounded-2xl border border-green-50 shadow-sm flex items-start gap-4">
-            <i class="fa-solid fa-gift text-2xl mt-1" style="color: #d8573b;"></i>
-            <div>
-                <p class="font-extrabold text-[#d8573b] italic">"The Free Gift Scam"</p>
-                <p class="text-sm text-green-900 mt-1">ระวังคนเอาของมาใส่มือหรือผูกข้อมือให้ฟรีๆ แล้วเรียกเก็บเงินมหาศาลภายหลัง</p>
+    <div id="explore" class="tab-content p-6 text-center">
+        <div class="bg-white p-8 rounded-3xl shadow-sm border border-green-50">
+            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="fa-solid fa-location-crosshairs text-3xl text-green-800"></i>
             </div>
+            <h2 class="text-xl font-black mb-2" style="color: #2c4e3a;">ค้นหาที่เที่ยวใกล้ตัว</h2>
+            <p class="text-sm text-slate-500 mb-6 font-medium">กดปุ่มด้านล่างเพื่อเปิดแผนที่ดูที่เที่ยว ร้านอาหาร และคาเฟ่ใกล้คุณที่สุด</p>
+            <button onclick="findNearby('attractions')" class="w-full bg-[#d8573b] text-white font-black py-4 rounded-xl mb-3 shadow-md">🏛️ ที่เที่ยวใกล้ฉัน</button>
+            <button onclick="findNearby('restaurants')" class="w-full bg-[#2c4e3a] text-white font-black py-4 rounded-xl shadow-md">🍜 ร้านอาหาร/คาเฟ่ใกล้ฉัน</button>
         </div>
-        <div class="bg-white p-5 rounded-2xl border border-green-50 shadow-sm flex items-start gap-4">
-            <i class="fa-solid fa-whiskey-glass text-2xl mt-1" style="color: #d8573b;"></i>
-            <div>
-                <p class="font-extrabold text-[#d8573b] italic">"Overpriced Kabukicho Bars"</p>
-                <p class="text-sm text-green-900 mt-1">อย่าตามคนเชิญชวนข้างถนนเข้าไปในบาร์ที่ไม่รู้จัก อาจโดนค่าเครื่องดื่มหลักหมื่นเยนได้</p>
-            </div>
+    </div>
+
+    <div id="safe" class="tab-content p-6 space-y-4">
+        <h2 class="text-xl font-black text-slate-700">🆘 บัตรช่วยชีวิต</h2>
+        <div class="bg-white p-5 rounded-2xl border-l-8 border-[#d8573b] shadow-sm">
+            <p class="text-green-800 font-bold text-sm">แจ้งเหตุฉุกเฉิน</p>
+            <p class="text-[#d8573b] text-2xl font-black mt-1">たすけてください</p>
         </div>
+        <a href="tel:110" class="block w-full bg-red-600 text-white text-center font-black py-4 rounded-xl shadow-lg">📞 โทรแจ้งตำรวจ (110)</a>
     </div>
 
     <script>
         function openTab(tabName) {
-            let i, tabcontent;
-            tabcontent = document.getElementsByClassName("tab-content");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
-            }
+            const contents = document.getElementsByClassName("tab-content");
+            for (let c of contents) { c.style.display = "none"; }
             document.getElementById(tabName).style.display = "block";
         }
 
@@ -110,15 +84,34 @@
             const total = document.getElementById('totalBudget').value;
             const rate = document.getElementById('rate').value;
             const days = document.getElementById('days').value;
-
             if(total && rate && days) {
-                const dailyTHB = (total / days).toFixed(2);
+                const dailyTHB = (total / days).toFixed(0);
                 const dailyForeign = (dailyTHB / rate).toFixed(0);
-                document.getElementById('dailyAmount').innerText = dailyTHB + " THB";
-                document.getElementById('currencyResult').innerText = "หรือประมาณ " + dailyForeign + " ในสกุลเงินต่างประเทศ";
+                document.getElementById('dailyAmount').innerText = parseInt(dailyTHB).toLocaleString() + " THB";
+                document.getElementById('currencyResult').innerText = "ประมาณ " + parseInt(dailyForeign).toLocaleString() + " สกุลเงินท้องถิ่น";
                 document.getElementById('result').classList.remove('hidden');
+            }
+        }
+
+        function trackFlight() {
+            const flight = document.getElementById('flightNo').value;
+            if(flight) {
+                window.open(`https://www.google.com/search?q=flight+status+${flight}`, '_blank');
+            } else { alert("กรุณาใส่เลขเที่ยวบินครับ"); }
+        }
+
+        function findNearby(type) {
+            const query = type === 'attractions' ? 'tourist+attractions' : 'restaurants+and+cafes';
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((position) => {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    window.open(`https://www.google.com/maps/search/${query}/@${lat},${lon},15z`, '_blank');
+                }, () => {
+                    window.open(`https://www.google.com/maps/search/${query}/`, '_blank');
+                });
             } else {
-                alert("กรุณากรอกข้อมูลให้ครบถ้วนครับ");
+                window.open(`https://www.google.com/maps/search/${query}/`, '_blank');
             }
         }
     </script>
