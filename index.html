@@ -3,83 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Safe & Smart Travel Companion</title>
+    <title>Nature Power Travel Companion</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f7f9fc; }
+        body { font-family: 'Inter', sans-serif; background-color: #f0f4f1; color: #333; }
         .tab-content { display: none; }
         .active { display: block; }
-        input:focus { outline: none; border-color: #d8573b !important; ring: 2px; ring-color: #d8573b; }
+        .nav-btn.active-btn { border-bottom: 2px solid #2d6a4f; color: #2d6a4f; }
+        input:focus { outline: none; border-color: #2d6a4f !important; ring: 2px; ring-color: #2d6a4f; }
     </style>
 </head>
-<body class="max-w-md mx-auto shadow-xl min-h-screen pb-24 relative border border-green-50 rounded-2xl">
+<body class="max-w-md mx-auto shadow-2xl min-h-screen pb-24 relative rounded-3xl overflow-hidden bg-white">
 
-    <header class="bg-[#2c4e3a] text-white p-6 rounded-b-3xl text-center shadow-md relative overflow-hidden">
-        <h1 class="text-3xl font-black tracking-tight" style="color: #d8573b; -webkit-text-stroke: 1px white;">Safe & Smart</h1>
-        <p class="text-lg font-bold text-green-100">Travel Companion 🌏</p>
-    </header>
+    <div class="h-64 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?q=80&w=800&auto=format&fit=crop');">
+        <div class="absolute inset-0 bg-black/30 p-6 flex flex-col justify-between text-white">
+            <div class="flex justify-between items-center">
+                <span class="text-sm font-semibold">📍 Current Location: Japan</span>
+                <i class="fa-solid fa-bell text-lg"></i>
+            </div>
+            <div>
+                <h1 class="text-4xl font-bold tracking-tight">Nature Power</h1>
+                <p class="text-lg text-white/80">Discover the magic around you</p>
+            </div>
+        </div>
+    </div>
 
-    <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white flex justify-around p-3 shadow-[0_-4px_10px_rgba(0,0,0,0.05)] rounded-t-3xl border-t border-green-100 z-50">
-        <button onclick="openTab('budget')" class="text-green-800 font-bold flex flex-col items-center"><i class="fa-solid fa-wallet text-xl" style="color: #d8573b;"></i><span class="text-[10px]">คุมงบ</span></button>
-        <button onclick="openTab('flight')" class="text-green-800 font-bold flex flex-col items-center"><i class="fa-solid fa-plane-up text-xl" style="color: #d8573b;"></i><span class="text-[10px]">เที่ยวบิน</span></button>
-        <button onclick="openTab('explore')" class="text-green-800 font-bold flex flex-col items-center"><i class="fa-solid fa-map-location-dot text-xl" style="color: #d8573b;"></i><span class="text-[10px]">ใกล้ฉัน</span></button>
-        <button onclick="openTab('safe')" class="text-green-800 font-bold flex flex-col items-center"><i class="fa-solid fa-shield-halved text-xl" style="color: #d8573b;"></i><span class="text-[10px]">กู้ชีพ</span></button>
+    <nav class="flex justify-around p-4 border-b border-gray-100 sticky top-0 bg-white z-50">
+        <button onclick="openTab('budget')" class="nav-btn active-btn pb-2 text-sm font-semibold text-gray-500">
+            <i class="fa-solid fa-wallet mr-2"></i>งบประมาณ
+        </button>
+        <button onclick="openTab('explore')" class="nav-btn pb-2 text-sm font-semibold text-gray-500">
+            <i class="fa-solid fa-compass mr-2"></i>สำรวจ
+        </button>
+        <button onclick="openTab('safe')" class="nav-btn pb-2 text-sm font-semibold text-gray-500">
+            <i class="fa-solid fa-life-ring mr-2"></i>ช่วยเหลือ
+        </button>
     </nav>
 
-    <div id="budget" class="tab-content active p-6">
-        <div class="bg-white p-6 rounded-3xl shadow-sm border border-green-50 mb-4">
-            <h2 class="text-xl font-black mb-4" style="color: #2c4e3a;">💰 คำนวณงบรายวัน</h2>
-            <div class="space-y-4">
-                <input type="number" id="totalBudget" class="w-full p-3.5 bg-green-50/50 rounded-xl border border-green-100" placeholder="งบทั้งหมด (บาท)">
-                <input type="number" id="rate" step="0.01" class="w-full p-3.5 bg-green-50/50 rounded-xl border border-green-100" placeholder="เรทเงิน (เช่น 0.23)">
-                <input type="number" id="days" class="w-full p-3.5 bg-green-50/50 rounded-xl border border-green-100" placeholder="จำนวนวัน">
-                <button onclick="calcBudget()" class="w-full bg-[#d8573b] text-white font-black py-4 rounded-xl shadow-md">คำนวณเงิน</button>
+    <main class="p-6">
+        
+        <div id="budget" class="tab-content active space-y-6">
+            <div class="bg-[#f0f4f1] p-6 rounded-2xl">
+                <h2 class="text-xl font-semibold mb-4 text-[#1b4332]">Calculate Daily Budget</h2>
+                <div class="space-y-4">
+                    <input type="number" id="totalBudget" class="w-full p-4 bg-white rounded-xl border-none shadow-sm" placeholder="Total Budget (THB)">
+                    <input type="number" id="rate" step="0.01" class="w-full p-4 bg-white rounded-xl border-none shadow-sm" placeholder="Exchange Rate (e.g., 0.23)">
+                    <input type="number" id="days" class="w-full p-4 bg-white rounded-xl border-none shadow-sm" placeholder="Duration (Days)">
+                    <button onclick="calcBudget()" class="w-full bg-[#2d6a4f] text-white font-semibold py-4 rounded-xl shadow-md transition hover:bg-[#1b4332]">คำนวณเงิน</button>
+                </div>
+                <div id="result" class="mt-6 text-center hidden p-6 bg-white rounded-2xl shadow-inner">
+                    <h3 id="dailyAmount" class="text-3xl font-bold text-[#1b4332]"></h3>
+                    <p id="currencyResult" class="text-sm text-gray-600 mt-1"></p>
+                </div>
             </div>
-            <div id="result" class="mt-6 text-center hidden p-4 bg-green-50 rounded-2xl border border-green-100">
-                <h3 id="dailyAmount" class="text-3xl font-black" style="color: #d8573b;"></h3>
-                <p id="currencyResult" class="text-xs text-green-600 mt-1 font-bold"></p>
+        </div>
+
+        <div id="explore" class="tab-content space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                <h2 class="text-lg font-semibold mb-3">✈️ Check Flight Status</h2>
+                <input type="text" id="flightNo" class="w-full p-3 bg-gray-50 rounded-xl border border-gray-100 mb-3" placeholder="Flight No. (e.g., JL708)">
+                <button onclick="trackFlight()" class="w-full bg-gray-100 text-gray-700 font-semibold py-3 rounded-xl">Track Flight</button>
+            </div>
+
+            <div class="rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+                <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=400" alt="Attractions" class="h-40 w-full object-cover">
+                <div class="p-4">
+                    <h3 class="font-semibold text-lg">Local Attractions</h3>
+                    <p class="text-sm text-gray-600 mb-3">Find nearby spots, parks, and more.</p>
+                    <button onclick="findNearby('attractions')" class="w-full bg-[#2d6a4f] text-white font-semibold py-3 rounded-xl">ที่เที่ยวใกล้ฉัน</button>
+                </div>
+            </div>
+
+            <div class="rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+                <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=400" alt="Dining" class="h-40 w-full object-cover">
+                <div class="p-4">
+                    <h3 class="font-semibold text-lg">Restaurants & Cafes</h3>
+                    <p class="text-sm text-gray-600 mb-3">Discover the best local food.</p>
+                    <button onclick="findNearby('restaurants')" class="w-full bg-[#2d6a4f] text-white font-semibold py-3 rounded-xl">ร้านอาหารใกล้ฉัน</button>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div id="flight" class="tab-content p-6">
-        <div class="bg-white p-6 rounded-3xl shadow-sm border border-green-50">
-            <h2 class="text-xl font-black mb-4" style="color: #2c4e3a;">✈️ เช็กสถานะเที่ยวบิน</h2>
-            <p class="text-sm text-green-700 mb-4 font-semibold italic">* ใส่เลขเที่ยวบินเพื่อดูเวลาดีเลย์และประตูทางออก</p>
-            <input type="text" id="flightNo" class="w-full p-3.5 bg-green-50/50 rounded-xl border border-green-100 mb-4 uppercase" placeholder="เช่น JL708 หรือ TG672">
-            <button onclick="trackFlight()" class="w-full bg-[#2c4e3a] text-white font-black py-4 rounded-xl shadow-md">Track Flight</button>
-        </div>
-    </div>
-
-    <div id="explore" class="tab-content p-6 text-center">
-        <div class="bg-white p-8 rounded-3xl shadow-sm border border-green-50">
-            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <i class="fa-solid fa-location-crosshairs text-3xl text-green-800"></i>
+        <div id="safe" class="tab-content space-y-4">
+            <h2 class="text-xl font-semibold mb-4">Emergency Support</h2>
+            <div class="bg-white p-5 rounded-xl border-l-4 border-red-500 shadow-sm flex items-center gap-4">
+                <i class="fa-solid fa-hospital text-3xl text-red-500"></i>
+                <div>
+                    <p class="font-semibold text-red-500 text-sm">Need Help (Japanese)</p>
+                    <p class="text-gray-900 text-lg font-medium">たすけてください</p>
+                </div>
             </div>
-            <h2 class="text-xl font-black mb-2" style="color: #2c4e3a;">ค้นหาที่เที่ยวใกล้ตัว</h2>
-            <p class="text-sm text-slate-500 mb-6 font-medium">กดปุ่มด้านล่างเพื่อเปิดแผนที่ดูที่เที่ยว ร้านอาหาร และคาเฟ่ใกล้คุณที่สุด</p>
-            <button onclick="findNearby('attractions')" class="w-full bg-[#d8573b] text-white font-black py-4 rounded-xl mb-3 shadow-md">🏛️ ที่เที่ยวใกล้ฉัน</button>
-            <button onclick="findNearby('restaurants')" class="w-full bg-[#2c4e3a] text-white font-black py-4 rounded-xl shadow-md">🍜 ร้านอาหาร/คาเฟ่ใกล้ฉัน</button>
+            <a href="tel:110" class="block w-full bg-red-500 text-white text-center font-semibold py-4 rounded-xl shadow-lg transition hover:bg-red-600">
+                📞 Call Police (110)
+            </a>
         </div>
-    </div>
 
-    <div id="safe" class="tab-content p-6 space-y-4">
-        <h2 class="text-xl font-black text-slate-700">🆘 บัตรช่วยชีวิต</h2>
-        <div class="bg-white p-5 rounded-2xl border-l-8 border-[#d8573b] shadow-sm">
-            <p class="text-green-800 font-bold text-sm">แจ้งเหตุฉุกเฉิน</p>
-            <p class="text-[#d8573b] text-2xl font-black mt-1">たすけてください</p>
-        </div>
-        <a href="tel:110" class="block w-full bg-red-600 text-white text-center font-black py-4 rounded-xl shadow-lg">📞 โทรแจ้งตำรวจ (110)</a>
-    </div>
+    </main>
 
     <script>
         function openTab(tabName) {
+            // Swith tab content
             const contents = document.getElementsByClassName("tab-content");
             for (let c of contents) { c.style.display = "none"; }
             document.getElementById(tabName).style.display = "block";
+
+            // Switch active nav button state
+            const buttons = document.getElementsByClassName("nav-btn");
+            for (let b of buttons) { b.classList.remove("active-btn"); }
+            event.currentTarget.classList.add("active-btn");
         }
 
+        // --- Core Functions (kept from previous code) ---
         function calcBudget() {
             const total = document.getElementById('totalBudget').value;
             const rate = document.getElementById('rate').value;
@@ -88,7 +123,7 @@
                 const dailyTHB = (total / days).toFixed(0);
                 const dailyForeign = (dailyTHB / rate).toFixed(0);
                 document.getElementById('dailyAmount').innerText = parseInt(dailyTHB).toLocaleString() + " THB";
-                document.getElementById('currencyResult').innerText = "ประมาณ " + parseInt(dailyForeign).toLocaleString() + " สกุลเงินท้องถิ่น";
+                document.getElementById('currencyResult').innerText = "Approx. " + parseInt(dailyForeign).toLocaleString() + " Local Currency";
                 document.getElementById('result').classList.remove('hidden');
             }
         }
@@ -97,7 +132,7 @@
             const flight = document.getElementById('flightNo').value;
             if(flight) {
                 window.open(`https://www.google.com/search?q=flight+status+${flight}`, '_blank');
-            } else { alert("กรุณาใส่เลขเที่ยวบินครับ"); }
+            } else { alert("Please enter a flight number."); }
         }
 
         function findNearby(type) {
@@ -107,12 +142,8 @@
                     const lat = position.coords.latitude;
                     const lon = position.coords.longitude;
                     window.open(`https://www.google.com/maps/search/${query}/@${lat},${lon},15z`, '_blank');
-                }, () => {
-                    window.open(`https://www.google.com/maps/search/${query}/`, '_blank');
-                });
-            } else {
-                window.open(`https://www.google.com/maps/search/${query}/`, '_blank');
-            }
+                }, () => { window.open(`https://www.google.com/maps/search/${query}/`, '_blank'); });
+            } else { window.open(`https://www.google.com/maps/search/${query}/`, '_blank'); }
         }
     </script>
 </body>
