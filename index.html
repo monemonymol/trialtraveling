@@ -3,29 +3,41 @@
         let currentFilter = 'All';
         let expenses = [];
 
-        // ฟังก์ชันดึงข้อมูลจาก GitHub
+        // 1. ฟังก์ชันโหลดข้อมูลจากไฟล์ data.json
         async function loadData() {
             try {
-                const response = await fetch('data.json'); // ดึงไฟล์ data.json ในโฟลเดอร์เดียวกัน
-                if (!response.ok) throw new Error('Network response was not ok');
+                // ดึงข้อมูลจากไฟล์ data.json ที่อยู่ใน Repository เดียวกัน
+                const response = await fetch('data.json');
+                if (!response.ok) throw new Error('หาไฟล์ data.json ไม่พบ');
+                
                 allPlaces = await response.json();
-                renderRestaurants(allPlaces); // แสดงผลครั้งแรก
+                renderRestaurants(allPlaces); // แสดงผลข้อมูล
             } catch (error) {
                 console.error("Fetch error:", error);
-                document.getElementById('restaurantContainer').innerHTML = 
-                    "<p class='text-center text-red-500 font-bold py-10'>ไม่สามารถโหลดข้อมูลได้ กรุณาตรวจสอบไฟล์ data.json</p>";
+                document.getElementById('restaurantContainer').innerHTML = `
+                    <div class="text-center py-10">
+                        <i class="fa-solid fa-circle-exclamation text-red-500 text-3xl mb-3"></i>
+                        <p class="text-red-500 font-bold text-sm">ไม่สามารถโหลดข้อมูลได้</p>
+                        <p class="text-gray-400 text-[10px]">กรุณาตรวจสอบว่ามีไฟล์ data.json อยู่ใน GitHub หรือยัง</p>
+                    </div>
+                `;
             }
         }
 
-        // เรียกใช้งานทันทีเมื่อโหลดหน้าเว็บ
+        // เริ่มต้นโหลดข้อมูลทันที
         loadData();
 
+        // 2. ฟังก์ชันแสดงผลการ์ดร้านอาหาร
         function renderRestaurants(data) {
             const container = document.getElementById('restaurantContainer');
             container.innerHTML = "";
             
+            if (data.length === 0) {
+                container.innerHTML = "<p class='text-center text-gray-400 py-10 text-xs'>ไม่พบข้อมูลที่ค้นหา</p>";
+                return;
+            }
+
             data.forEach(res => {
-                // เลือกสีธีมตาม Filter
                 const themeClass = res.filter === 'Music Lover' ? 'border-music-theme' : (res.filter === 'Art Collector' ? 'border-art-theme' : 'border-gray-100');
                 const themeTag = res.filter === 'Music Lover' ? 'bg-music-theme' : (res.filter === 'Art Collector' ? 'bg-art-theme' : 'bg-nat-green');
 
@@ -35,10 +47,10 @@
                     <div class="p-5">
                         <div class="flex justify-between items-start mb-1">
                             <h3 class="text-lg font-bold text-nat-dark uppercase font-sans tracking-tighter">${res.name}</h3>
-                            <span class="text-nat-green font-bold text-xs">${res.price}</span>
+                            <span class="text-nat-green font-bold text-xs">${res.price || '💰💰'}</span>
                         </div>
                         <div class="flex items-center gap-2 mb-3">
-                             <span class="${themeTag} text-white text-[8px] px-2 py-0.5 rounded-full font-black uppercase tracking-tighter">${res.filter}</span>
+                             <span class="${themeTag} text-white text-[8px] px-2 py-0.5 rounded-full font-black uppercase tracking-tighter">${res.filter || 'General'}</span>
                              <p class="text-[9px] text-gray-400 font-bold uppercase tracking-widest">${res.area} • ${res.type}</p>
                         </div>
                         <p class="text-xs text-gray-500 mb-4 leading-relaxed font-medium italic">"${res.vibe}"</p>
@@ -47,20 +59,23 @@
                             <div class="flex gap-1.5">
                                 <div class="text-center">
                                     <p class="text-[7px] text-gray-400 font-bold uppercase">Energy</p>
-                                    <span class="text-[8px] bg-nat-light text-nat-green px-2 py-1 rounded-lg font-bold uppercase">${res.energy}</span>
+                                    <span class="text-[8px] bg-nat-light text-nat-green px-2 py-1 rounded-lg font-bold uppercase">${res.energy || 'N/A'}</span>
                                 </div>
                                 <div class="text-center">
                                     <p class="text-[7px] text-gray-400 font-bold uppercase">Human Design</p>
-                                    <span class="text-[8px] bg-indigo-50 text-indigo-700 px-2 py-1 rounded-lg font-bold uppercase">${res.hd}</span>
+                                    <span class="text-[8px] bg-indigo-50 text-indigo-700 px-2 py-1 rounded-lg font-bold uppercase">${res.hd || 'N/A'}</span>
                                 </div>
                             </div>
-                            <button onclick="window.open('https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(res.name + ' ' + res.area)}')" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-nat-dark hover:bg-nat-green hover:text-white transition-colors"><i class="fa-solid fa-location-dot text-xs"></i></button>
+                            <button onclick="window.open('https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(res.name + ' ' + res.area)}')" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-nat-dark hover:bg-nat-green hover:text-white transition-colors">
+                                <i class="fa-solid fa-location-dot text-xs"></i>
+                            </button>
                         </div>
                     </div>
                 </div>`;
             });
         }
 
+        // 3. ระบบ Filter
         function filterByCreative(type) {
             currentFilter = type;
             const btns = document.querySelectorAll('.filter-btn');
@@ -75,6 +90,7 @@
             }
         }
 
+        // 4. ระบบ Search
         function searchPlaces() {
             const query = document.getElementById('placeSearch').value.toLowerCase();
             const searched = allPlaces.filter(p => 
@@ -84,6 +100,7 @@
             renderRestaurants(searched);
         }
 
+        // 5. ระบบ Tab
         function openTab(tabName) {
             const contents = document.getElementsByClassName("tab-content");
             for (let c of contents) { c.style.display = "none"; }
@@ -96,6 +113,7 @@
             window.scrollTo(0,0);
         }
 
+        // 6. ส่วนเสริมอื่นๆ (Expense, Flight)
         function addExpense() {
             const date = document.getElementById('expDate').value;
             const cat = document.getElementById('expCat').value;
@@ -126,7 +144,7 @@
             if(!expenses.length) return;
             document.getElementById('aiInsightBox').classList.remove('hidden');
             const total = expenses.reduce((sum, e) => sum + e.amt, 0);
-            document.getElementById('insightText').innerText = `รวมยอดใช้จ่าย ${total.toLocaleString()} THB AI พบว่าคุณใช้จ่ายไปกับประสบการณ์ระดับ "Creative" สูง ซึ่งสอดคล้องกับสไตล์การท่องเที่ยวของคุณในทริปนี้...`;
+            document.getElementById('insightText').innerText = `รวมยอดใช้จ่าย ${total.toLocaleString()} THB ระบบวิเคราะห์ว่าคุณเน้นไปที่ประสบการณ์ตามแบบฉบับ Creative Traveler ของคุณ...`;
         }
 
         function trackFlight() {
