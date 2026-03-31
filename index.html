@@ -165,22 +165,24 @@
 
     <script>
         // ข้อมูลตัวอย่าง (จะถูกแทนที่ด้วย fetch('data.json') เมื่อนำขึ้น GitHub)
-        let allPlaces = [
-            { name: "Bar Benfiddich", area: "Shinjuku", type: "Bar", vibe: "Farm-to-Glass Experience", mbti: "INFJ, INTJ", hd: "Reflector", energy: "Low (Deep Immersive)", filter: "Art Collector", price: "💰💰💰", img: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=600" },
-            { name: "Wagakki Bar Ryu Guw", area: "Koenji", type: "Bar", vibe: "Traditional Japanese Strings", mbti: "INFJ, ISTP", hd: "Projector", energy: "Low (Focused)", filter: "Music Lover", price: "💰💰💰", img: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=600" },
-            { name: "nanca", area: "Shimokitazawa", type: "Restaurant", vibe: "Fusion Izakaya & Creative Arts", mbti: "INFP, ISFP", hd: "Projector", energy: "Low (Immersive)", filter: "Art Collector", price: "💰💰💰", img: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=600" }
-        ];
+        let allPlaces = [];
 
-        let currentFilter = 'All';
-        let expenses = [];
+     // ฟังก์ชันดึงข้อมูลจาก GitHub
+async function loadData() {
+    try {
+        const response = await fetch('data.json'); // ดึงไฟล์ data.json ในโฟลเดอร์เดียวกัน
+        if (!response.ok) throw new Error('Network response was not ok');
+        allPlaces = await response.json();
+        renderRestaurants(allPlaces); // แสดงผลครั้งแรก
+    } catch (error) {
+        console.error("Fetch error:", error);
+        // แสดงข้อความเตือนบนหน้าเว็บถ้าโหลดข้อมูลไม่ได้
+        document.getElementById('restaurantContainer').innerHTML = "<p class='text-center text-red-500 font-bold'>ไม่สามารถโหลดข้อมูลได้ กรุณาตรวจสอบไฟล์ data.json</p>";
+    }
+}
 
-        // ฟังก์ชันโหลดข้อมูล (กรณีใช้ไฟล์ JSON ภายนอกบน GitHub)
-        /*
-        async function loadData() {
-            const response = await fetch('data.json');
-            allPlaces = await response.json();
-            renderRestaurants(allPlaces);
-        }
+// เรียกใช้งานทันที
+loadData();
         */
 
         function renderRestaurants(data) {
