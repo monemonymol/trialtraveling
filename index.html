@@ -28,12 +28,13 @@
         .active { display: block; }
         .nav-btn.active-btn { border-bottom: 3px solid #2d6a4f; color: #2d6a4f; }
         input:focus { outline: none; border: 2px solid #2d6a4f !important; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
 </head>
 <body class="max-w-md mx-auto shadow-2xl min-h-screen pb-24 relative rounded-3xl overflow-hidden bg-white">
 
     <div id="loginPage" class="fixed inset-0 bg-nat-dark z-[100] flex flex-col justify-center p-8 text-white transition-all">
-        <h1 class="text-4xl font-black mb-2 text-white">Nature Power</h1>
+        <h1 class="text-4xl font-black mb-2 text-white font-sans">Nature Power</h1>
         <p class="text-green-200 mb-8">เข้าสู่ระบบเพื่อบันทึกข้อมูลทริปของคุณ</p>
         <div class="space-y-4 text-gray-900">
             <input type="text" placeholder="Username" class="w-full p-4 rounded-xl">
@@ -47,10 +48,10 @@
         <div class="absolute inset-0 bg-black/30 p-6 flex flex-col justify-between text-white">
             <div class="flex justify-between items-center text-xs">
                 <span class="bg-white/20 px-3 py-1 rounded-full"><i class="fa-solid fa-user mr-2"></i>Hello, Traveler</span>
-                <span id="headerRate" class="font-bold">1 THB = ... JPY</span>
+                <span id="headerRate" class="font-bold font-sans tracking-wide">1 THB = ... JPY</span>
             </div>
             <div>
-                <h1 class="text-3xl font-extrabold">Discover Nature</h1>
+                <h1 class="text-3xl font-extrabold font-sans uppercase tracking-tighter">Nature Power</h1>
                 <p class="text-sm opacity-90">Manage your trip in one place</p>
             </div>
         </div>
@@ -67,9 +68,9 @@
     <main class="p-5">
         
         <div id="budget" class="tab-content active space-y-6">
-            <div class="bg-nat-light p-6 rounded-3xl shadow-inner relative">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-lg font-extrabold text-nat-dark">💰 แลกเปลี่ยนสกุลเงิน</h2>
+            <div class="bg-nat-light p-6 rounded-3xl shadow-inner relative text-center">
+                <div class="flex justify-between items-center mb-4 px-2">
+                    <h2 class="text-lg font-extrabold text-nat-dark">แลกเปลี่ยนสกุลเงิน</h2>
                     <button onclick="swapCurrency()" class="bg-white p-2 rounded-full shadow-md text-nat-green hover:rotate-180 transition-all duration-300">
                         <i class="fa-solid fa-arrows-rotate"></i>
                     </button>
@@ -77,85 +78,120 @@
                 
                 <div class="space-y-3">
                     <div class="relative">
-                        <input type="number" id="inputAmount" oninput="doConvert()" class="w-full p-4 bg-white rounded-xl shadow-sm text-xl font-bold" placeholder="กรอกจำนวนเงิน">
-                        <span id="inputLabel" class="absolute right-4 top-4 font-bold text-gray-400">THB</span>
+                        <input type="number" id="inputAmount" oninput="doConvert()" class="w-full p-4 bg-white rounded-xl shadow-sm text-xl font-bold font-sans" placeholder="0.00">
+                        <span id="inputLabel" class="absolute right-4 top-4 font-bold text-gray-400 font-sans">THB</span>
                     </div>
-                    <div class="text-center py-6 bg-white rounded-2xl shadow-md border border-green-50">
-                        <p id="outputSub" class="text-xs text-gray-400 font-bold uppercase">คุณจะได้รับประมาณ</p>
-                        <h3 id="outputAmount" class="text-4xl font-black text-nat-green">0</h3>
-                        <p id="outputLabel" class="text-sm font-bold text-nat-accent mt-1">JPY</p>
+                    <div class="py-8 bg-white rounded-2xl shadow-md border border-green-50">
+                        <p id="outputSub" class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Estimated Output</p>
+                        <h3 id="outputAmount" class="text-5xl font-black text-nat-green font-sans my-1">0</h3>
+                        <p id="outputLabel" class="text-sm font-bold text-nat-accent font-sans">JPY</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div id="booking" class="tab-content space-y-4">
-            <h2 class="text-xl font-extrabold text-nat-dark">🏨 การจองของฉัน</h2>
-            <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex items-center gap-4">
-                <div class="bg-green-100 p-3 rounded-xl"><i class="fa-solid fa-hotel text-nat-green"></i></div>
-                <div class="flex-1">
-                    <p class="text-xs text-gray-400">Hotel Booking</p>
-                    <p class="font-bold text-sm">ยังไม่มีการจองที่พัก</p>
+        <div id="booking" class="tab-content space-y-6">
+            <div>
+                <h2 class="text-xl font-extrabold text-nat-dark mb-4">การจองของฉัน</h2>
+                <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex items-center gap-4">
+                    <div class="bg-green-50 p-4 rounded-xl text-nat-green"><i class="fa-solid fa-hotel text-xl"></i></div>
+                    <div class="flex-1">
+                        <p class="text-[10px] text-gray-400 font-bold uppercase">Accommodation</p>
+                        <p class="font-bold text-sm">ยังไม่มีข้อมูลการจอง</p>
+                    </div>
+                    <button class="text-xs font-bold text-nat-green underline">Add</button>
                 </div>
-                <button class="text-xs font-bold text-nat-green underline">เพิ่มใบจอง</button>
             </div>
             
-            <h2 class="text-xl font-extrabold text-nat-dark mt-6">📶 ซื้อซิมการ์ด / WiFi</h2>
-            <div class="grid grid-cols-2 gap-3">
-                <div onclick="window.open('https://www.klook.com')" class="bg-nat-light p-4 rounded-2xl text-center border border-green-100 cursor-pointer">
-                    <i class="fa-solid fa-sim-card text-2xl mb-2 text-nat-accent"></i>
-                    <p class="text-xs font-bold">Sim Card (Japan)</p>
-                </div>
-                <div onclick="window.open('https://www.agoda.com')" class="bg-nat-light p-4 rounded-2xl text-center border border-green-100 cursor-pointer">
-                    <i class="fa-solid fa-wifi text-2xl mb-2 text-nat-green"></i>
-                    <p class="text-xs font-bold">Pocket WiFi</p>
+            <div>
+                <h2 class="text-xl font-extrabold text-nat-dark mb-4">บริการการเดินทาง</h2>
+                <div class="grid grid-cols-2 gap-4">
+                    <div onclick="window.open('https://www.klook.com')" class="bg-white p-5 rounded-2xl text-center border border-gray-100 shadow-sm">
+                        <i class="fa-solid fa-sim-card text-3xl mb-3 text-nat-accent"></i>
+                        <p class="text-xs font-extrabold">Sim Card Japan</p>
+                    </div>
+                    <div onclick="window.open('https://www.agoda.com')" class="bg-white p-5 rounded-2xl text-center border border-gray-100 shadow-sm">
+                        <i class="fa-solid fa-wifi text-3xl mb-3 text-nat-green"></i>
+                        <p class="text-xs font-extrabold">Pocket WiFi</p>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div id="dining" class="tab-content space-y-6">
-            <h2 class="text-xl font-extrabold text-nat-dark">🍽️ ร้านอาหาร & บาร์แนะนำ</h2>
+            <h2 class="text-xl font-extrabold text-nat-dark">ร้านอาหาร & บาร์แนะนำ</h2>
             
-            <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-                <div class="h-40 bg-gray-200 flex items-center justify-center">
-                    <i class="fa-solid fa-image text-3xl text-gray-400"></i>
-                </div>
-                <div class="p-5">
-                    <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-lg font-bold text-gray-400 italic font-thai">ชื่อร้านอาหาร (เร็วๆ นี้)</h3>
-                        <span class="bg-nat-light text-nat-green text-[10px] px-2 py-1 rounded-full font-bold">$$$</span>
+            <div id="restaurantList" class="space-y-6">
+                <div class="bg-white rounded-3xl shadow-md border border-gray-100 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=600" class="h-44 w-full object-cover">
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-lg font-bold text-nat-dark">Bar Benfiddich</h3>
+                            <span class="bg-nat-light text-nat-green text-[10px] px-3 py-1 rounded-full font-bold">$$$</span>
+                        </div>
+                        <p class="text-xs text-gray-500 mb-4 leading-relaxed">Shinjuku, Tokyo | ไม่มีเมนู ผสมจากวัตถุดิบตามฤดูกาล บรรยากาศลึกลับส่วนตัว World's 50 Best #18 </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="text-[9px] bg-gray-100 px-2 py-1 rounded font-bold">INFJ, INTJ, ISFP </span>
+                            <span class="text-[9px] bg-indigo-50 text-indigo-600 px-2 py-1 rounded font-bold">Reflector, Projector </span>
+                        </div>
                     </div>
-                    <p class="text-xs text-gray-500 mb-4 font-thai italic">คำอธิบายร้านอาหาร บรรยากาศ และเมนูแนะนำ...</p>
-                    <div class="flex gap-2">
-                        <span class="text-[10px] border border-gray-200 px-2 py-1 rounded text-gray-400 font-bold">เหมาะกับ: สายชิลล์</span>
-                    </div>
                 </div>
-            </div>
 
-            <div class="border-2 border-dashed border-gray-200 rounded-3xl p-10 text-center">
-                <p class="text-gray-400 font-bold text-sm font-thai">กำลังอัปเดตข้อมูลร้านอาหารลับ...</p>
+                <div class="bg-white rounded-3xl shadow-md border border-gray-100 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=600" class="h-44 w-full object-cover">
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-lg font-bold text-nat-dark">Virtù</h3>
+                            <span class="bg-nat-light text-nat-green text-[10px] px-3 py-1 rounded-full font-bold">$$$$</span>
+                        </div>
+                        <p class="text-xs text-gray-500 mb-4 leading-relaxed">Four Seasons Otemachi | วิวสกายไลน์ 360° ค็อกเทล French-Japanese luxury World's 50 Best #45 </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="text-[9px] bg-gray-100 px-2 py-1 rounded font-bold">ENFJ, ENTJ, ESFJ </span>
+                            <span class="text-[9px] bg-indigo-50 text-indigo-600 px-2 py-1 rounded font-bold">Manifestor, Generator </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-3xl shadow-md border border-gray-100 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=600" class="h-44 w-full object-cover">
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-lg font-bold text-nat-dark">Ichiran Ramen</h3>
+                            <span class="bg-nat-light text-nat-green text-[10px] px-3 py-1 rounded-full font-bold">$</span>
+                        </div>
+                        <p class="text-xs text-gray-500 mb-4 leading-relaxed">ทั่ว Tokyo | กินคนเดียวในบูธส่วนตัว โฟกัส 100% ไม่ต้องพูดกับใคร </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="text-[9px] bg-gray-100 px-2 py-1 rounded font-bold">INTJ, INTP, ISTJ </span>
+                            <span class="text-[9px] bg-indigo-50 text-indigo-600 px-2 py-1 rounded font-bold">Projector, Reflector </span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div id="checking" class="tab-content space-y-4">
-            <h2 class="text-xl font-extrabold text-nat-dark">📍 เพิ่มแผนการเดินทาง</h2>
-            <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 space-y-4">
-                <input type="text" id="tripPlace" class="w-full p-3 bg-gray-50 rounded-xl" placeholder="สถานที่ที่ต้องการไป">
-                <input type="time" id="tripTime" class="w-full p-3 bg-gray-50 rounded-xl">
-                <textarea id="tripNote" class="w-full p-3 bg-gray-50 rounded-xl h-20" placeholder="โน้ตเพิ่มเติม..."></textarea>
-                <button onclick="addTrip()" class="w-full bg-nat-green text-white font-bold py-3 rounded-xl shadow-md">+ เพิ่มลงแผน</button>
-            </div>
-            <div id="tripList" class="space-y-3 mt-4">
+        <div id="checking" class="tab-content space-y-6">
+            <h2 class="text-xl font-extrabold text-nat-dark">วางแผนการเดินทาง</h2>
+            <div class="bg-nat-light p-6 rounded-3xl shadow-inner space-y-4">
+                <input type="text" id="tripPlace" class="w-full p-4 bg-white rounded-xl shadow-sm border-none" placeholder="สถานที่เป้าหมาย">
+                <div class="flex gap-3">
+                    <input type="time" id="tripTime" class="flex-1 p-4 bg-white rounded-xl shadow-sm border-none">
+                    <button onclick="addTrip()" class="bg-nat-green text-white font-bold px-6 rounded-xl shadow-md">Add</button>
                 </div>
+                <textarea id="tripNote" class="w-full p-4 bg-white rounded-xl shadow-sm h-24 border-none" placeholder="รายละเอียดเพิ่มเติม..."></textarea>
+            </div>
+            <div id="tripList" class="space-y-3"></div>
         </div>
 
-        <div id="safe" class="tab-content space-y-4 text-center">
-             <div class="bg-red-50 p-7 rounded-3xl border-2 border-red-100 space-y-2">
-                <p class="text-red-500 font-bold text-xs">EMERGENCY ASSIST</p>
-                <p class="text-4xl font-black text-gray-900">たすけてください</p>
-                <p class="text-xs text-gray-600 italic">กรุณาช่วยฉันด้วย (Tasukete kudasai)</p>
+        <div id="safe" class="tab-content space-y-6 text-center">
+             <div class="bg-red-50 p-8 rounded-3xl border border-red-100 space-y-4 shadow-sm">
+                <p class="text-red-500 font-extrabold text-[10px] uppercase tracking-widest">Assistance Card</p>
+                <p class="text-4xl font-black text-gray-900 font-sans leading-none">たすけてください</p>
+                <p class="text-xs text-gray-500 font-medium">Please help me (Tasukete kudasai)</p>
             </div>
-            <a href="tel:110" class="block w-full bg-nat-green text-white font-black py-4 rounded-2xl shadow-lg">โทรแจ้งตำรวจ (ญี่ปุ่น 110)</a>
+            <a href="tel:110" class="flex items-center justify-center gap-3 w-full bg-nat-dark text-white font-black py-5 rounded-2xl shadow-xl hover:scale-105 transition-transform">
+                <i class="fa-solid fa-phone-volume"></i>
+                <span>Call Police (Japan 110)</span>
+            </a>
         </div>
 
     </main>
@@ -164,7 +200,11 @@
         let currentRate = 0;
         let isThbToJpy = true;
 
-        function closeLogin() { document.getElementById('loginPage').style.opacity = '0'; setTimeout(()=> document.getElementById('loginPage').style.display='none', 500); }
+        function closeLogin() { 
+            const login = document.getElementById('loginPage');
+            login.style.opacity = '0'; 
+            setTimeout(()=> login.style.display='none', 500); 
+        }
 
         async function fetchRate() {
             try {
@@ -172,7 +212,7 @@
                 const data = await response.json();
                 currentRate = data.rates.JPY;
                 document.getElementById('headerRate').innerText = `1 THB = ${currentRate.toFixed(2)} JPY`;
-            } catch (e) { currentRate = 4.2; }
+            } catch (e) { currentRate = 4.25; }
         }
 
         function swapCurrency() {
@@ -202,13 +242,22 @@
         function addTrip() {
             const place = document.getElementById('tripPlace').value;
             const time = document.getElementById('tripTime').value;
-            if(!place || !time) return alert('กรุณากรอกข้อมูลให้ครบ');
-            const item = `<div class="bg-white p-4 rounded-2xl border border-green-50 shadow-sm flex justify-between items-center">
-                <div><p class="font-bold text-nat-dark">${place}</p><p class="text-xs text-gray-400">${time}</p></div>
-                <i class="fa-solid fa-check-circle text-green-200 text-xl"></i>
+            const note = document.getElementById('tripNote').value;
+            if(!place || !time) return;
+            const item = `<div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex justify-between items-center group animate-fade-in">
+                <div class="flex-1">
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="w-2 h-2 bg-nat-green rounded-full"></span>
+                        <p class="font-extrabold text-nat-dark">${place}</p>
+                    </div>
+                    <p class="text-[10px] text-gray-400 font-bold ml-4 uppercase">${time}</p>
+                    ${note ? `<p class="text-xs text-gray-500 mt-2 ml-4 leading-relaxed italic border-l-2 border-gray-100 pl-2">${note}</p>` : ''}
+                </div>
+                <button class="text-gray-200 group-hover:text-nat-green transition-colors"><i class="fa-solid fa-circle-check text-2xl"></i></button>
             </div>`;
-            document.getElementById('tripList').innerHTML += item;
+            document.getElementById('tripList').insertAdjacentHTML('afterbegin', item);
             document.getElementById('tripPlace').value = '';
+            document.getElementById('tripNote').value = '';
         }
 
         fetchRate();
