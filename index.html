@@ -116,20 +116,44 @@
 
         <div id="booking" class="tab-content space-y-8">
             <h2 class="text-xl font-extrabold text-nat-dark uppercase">Track & Book</h2>
+            
             <div class="bg-white p-5 rounded-3xl border border-gray-100 shadow-sm flex gap-2">
                 <input type="text" id="flightNo" class="flex-1 p-4 bg-gray-50 rounded-xl font-bold uppercase text-sm" placeholder="Flight No.">
                 <button onclick="trackFlight()" class="bg-nat-green text-white px-6 rounded-xl font-black text-xs">Track</button>
             </div>
-            <div onclick="window.open('https://th.trip.com')" class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex justify-between items-center cursor-pointer">
-                <span class="font-bold text-sm text-blue-600 italic">Trip.com</span>
-                <i class="fa-solid fa-chevron-right text-gray-200"></i>
-            </div>
-        </div>
 
-        <div id="buddy" class="tab-content space-y-8">
-            <h2 class="text-xl font-extrabold text-nat-dark uppercase tracking-tighter">Community Hub</h2>
-            <div class="bg-nat-light p-8 rounded-[2.5rem] text-center border border-green-100">
-                <button class="w-full bg-nat-dark text-white font-black py-4 rounded-2xl shadow-xl uppercase text-xs tracking-widest">Find Travel Buddy</button>
+            <div class="grid grid-cols-1 gap-3">
+                <div onclick="window.open('https://th.trip.com')" class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex justify-between items-center cursor-pointer hover:bg-gray-50 transition-colors">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-plane-departure text-blue-500"></i>
+                        <span class="font-bold text-sm text-blue-600 italic">Trip.com</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-200"></i>
+                </div>
+
+                <div onclick="window.open('https://www.booking.com')" class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex justify-between items-center cursor-pointer hover:bg-gray-50 transition-colors">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-hotel text-indigo-700"></i>
+                        <span class="font-bold text-sm text-indigo-700 italic">Booking.com</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-200"></i>
+                </div>
+
+                <div onclick="window.open('https://www.agoda.com')" class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex justify-between items-center cursor-pointer hover:bg-gray-50 transition-colors">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-bed text-orange-500"></i>
+                        <span class="font-bold text-sm text-orange-600">Agoda</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-200"></i>
+                </div>
+
+                <div onclick="window.open('https://www.klook.com')" class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex justify-between items-center cursor-pointer hover:bg-gray-50 transition-colors">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-ticket text-orange-500"></i>
+                        <span class="font-bold text-sm text-orange-500 font-sans uppercase italic">Klook</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-200"></i>
+                </div>
             </div>
         </div>
     </main>
