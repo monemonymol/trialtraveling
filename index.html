@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nature Power - Personalized Travel Companion</title>
+    <title>Nature Power - All-in-One Travel</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,257 +14,189 @@
 
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
-                    colors: { 
-                        'nat-green': '#2d6a4f', 
-                        'nat-light': '#f0f4f1', 
-                        'nat-accent': '#d8573b', 
-                        'nat-dark': '#1b4332',
-                        'oled-black': '#000000'
-                    },
+                    colors: { 'nat-green': '#2d6a4f', 'nat-light': '#f0f4f1', 'nat-accent': '#d8573b', 'nat-dark': '#1b4332' },
                     fontFamily: { 'thai': ['Noto Sans Thai', 'sans-serif'], 'sans': ['Inter', 'sans-serif'] }
                 }
             }
         }
     </script>
     <style>
-        body { font-family: 'Noto Sans Thai', sans-serif; transition: background-color 0.3s; }
+        body { font-family: 'Noto Sans Thai', sans-serif; background-color: #f7f9fc; overflow-y: auto; }
         .tab-content { display: none; }
         .active { display: block; }
         .nav-btn.active-btn { border-bottom: 3px solid #2d6a4f; color: #2d6a4f; }
+        input, select, textarea { border: 1px solid #e5e7eb !important; outline: none; }
+        input:focus { border-color: #2d6a4f !important; ring: 2px; ring-color: #2d6a4f; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        #notificationToast { transform: translateY(100px); transition: transform 0.5s ease-in-out; }
-        #notificationToast.show { transform: translateY(0); }
     </style>
 </head>
-<body class="max-w-md mx-auto shadow-2xl min-h-screen pb-24 relative bg-white dark:bg-oled-black dark:text-gray-100">
-
-    <div id="notificationToast" class="fixed bottom-28 left-4 right-4 bg-nat-dark text-white p-4 rounded-2xl shadow-2xl z-[110] border border-green-400/30">
-        <div class="flex items-start gap-3">
-            <div class="bg-nat-accent p-2 rounded-lg"><i class="fa-solid fa-location-dot"></i></div>
-            <div class="flex-1">
-                <p class="text-[10px] font-bold uppercase tracking-widest text-green-300">Nearby Suggestion</p>
-                <p id="notifMessage" class="text-xs font-bold leading-tight mt-1">คุณอยู่ใกล้ร้าน Virtù แล้วนะ ร้านนี้เหมาะกับคุณมาก ลองแวะดูไหม?</p>
-            </div>
-            <button onclick="hideNotif()"><i class="fa-solid fa-xmark text-gray-400"></i></button>
-        </div>
-    </div>
-
-    <div id="loginOverlay" class="fixed inset-0 bg-nat-dark z-[100] flex flex-col justify-center p-8 text-white overflow-y-auto">
-        <h1 class="text-4xl font-black mb-2 font-sans italic">Nature Power</h1>
-        <p class="text-green-200 mb-6 text-sm">ระบุความเป็นคุณเพื่อประสบการณ์ที่เหนือกว่า</p>
-        <div class="space-y-4 text-gray-900">
-            <input type="text" id="userName" placeholder="ชื่อเล่นของคุณ" class="w-full p-4 rounded-xl border-none">
-            <select id="userHD" class="w-full p-4 rounded-xl border-none font-bold text-nat-dark">
-                <option value="">เลือก Human Design Type ของคุณ</option>
-                <option value="Manifestor">Manifestor (ผู้ริเริ่ม)</option>
-                <option value="Generator">Generator (ผู้สร้างพลังงาน)</option>
-                <option value="Manifesting Generator">Manifesting Generator (ผู้สร้างที่รวดเร็ว)</option>
-                <option value="Projector">Projector (ผู้ชี้แนะ)</option>
-                <option value="Reflector">Reflector (ผู้สะท้อน)</option>
-            </select>
-            <button onclick="saveProfile()" class="w-full bg-nat-accent text-white font-black py-4 rounded-xl shadow-lg">เริ่มต้นการเดินทาง</button>
-        </div>
-    </div>
+<body class="max-w-md mx-auto shadow-2xl min-h-screen pb-24 relative bg-white">
 
     <div class="h-48 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?q=80&w=800&auto=format&fit=crop');">
-        <div class="absolute inset-0 bg-black/40 p-6 flex flex-col justify-between">
+        <div class="absolute inset-0 bg-black/30 p-6 flex flex-col justify-between text-white">
             <div class="flex justify-between items-center">
-                <span id="userBadge" class="text-[9px] font-black uppercase tracking-tighter bg-white/20 text-white px-3 py-1 rounded-full backdrop-blur-md">Visitor</span>
-                <div class="flex gap-2">
-                    <button onclick="toggleDarkMode()" class="w-8 h-8 bg-black/20 text-white rounded-full flex items-center justify-center backdrop-blur-md">
-                        <i class="fa-solid fa-moon"></i>
-                    </button>
-                    <button onclick="toggleLogin()" class="w-8 h-8 bg-white/20 text-white rounded-full flex items-center justify-center backdrop-blur-md">
-                        <i class="fa-solid fa-user"></i>
-                    </button>
-                </div>
+                <span class="text-[10px] font-bold uppercase tracking-widest bg-white/20 px-3 py-1 rounded-full">Explore Nature</span>
+                <button onclick="openTab('safe')" class="w-8 h-8 bg-red-500/80 rounded-full flex items-center justify-center"><i class="fa-solid fa-heart-pulse text-xs"></i></button>
             </div>
             <div>
-                <h1 id="welcomeText" class="text-2xl font-extrabold text-white">Nature Power</h1>
-                <p id="hdAdvice" class="text-[10px] text-green-200 font-bold uppercase tracking-widest mt-1">Ready for your smart trip?</p>
+                <h1 class="text-3xl font-black font-sans uppercase tracking-tighter">Nature Power</h1>
+                <p class="text-xs opacity-90">Personalize Your Journey</p>
             </div>
         </div>
     </div>
 
-    <nav class="flex overflow-x-auto whitespace-nowrap p-3 border-b border-gray-100 dark:border-gray-800 bg-white dark:bg-oled-black sticky top-0 z-50 no-scrollbar">
-        <button onclick="openTab('budget')" class="nav-btn active-btn px-4 py-2 text-xs font-bold shrink-0">Money & AI</button>
-        <button onclick="openTab('dining')" class="nav-btn px-4 py-2 text-xs font-bold shrink-0">Dining (For You)</button>
-        <button onclick="openTab('booking')" class="nav-btn px-4 py-2 text-xs font-bold shrink-0">Booking</button>
-        <button onclick="openTab('checking')" class="nav-btn px-4 py-2 text-xs font-bold shrink-0">Analytics</button>
-        <button onclick="openTab('safe')" class="nav-btn px-4 py-2 text-xs font-bold shrink-0">Help</button>
+    <nav class="flex overflow-x-auto whitespace-nowrap p-3 border-b border-gray-100 bg-white sticky top-0 z-50 no-scrollbar">
+        <button onclick="openTab('dining')" class="nav-btn active-btn px-4 py-2 text-xs font-bold shrink-0">บาร์ & ร้านอาหาร</button>
+        <button onclick="openTab('budget')" class="nav-btn px-4 py-2 text-xs font-bold shrink-0">แลกเงิน</button>
+        <button onclick="openTab('analytics')" class="nav-btn px-4 py-2 text-xs font-bold shrink-0">วิเคราะห์ค่าใช้จ่าย</button>
+        <button onclick="openTab('checking')" class="nav-btn px-4 py-2 text-xs font-bold shrink-0">แผนการเดินทาง</button>
     </nav>
 
     <main class="p-5">
         
-        <div id="budget" class="tab-content active space-y-6">
-            <div class="bg-nat-light dark:bg-gray-900 p-6 rounded-3xl text-center">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-sm font-black uppercase text-nat-dark dark:text-green-400">Currency & Swap</h2>
-                    <button onclick="swapCurrency()" class="bg-white dark:bg-nat-dark p-2 rounded-full shadow-md"><i class="fa-solid fa-arrows-rotate text-nat-green"></i></button>
-                </div>
-                <input type="number" id="inputAmount" oninput="doConvert()" class="w-full p-4 bg-white dark:bg-black rounded-2xl text-2xl font-black text-center mb-4 border-none" placeholder="0.00">
-                <div class="py-8 bg-white dark:bg-black rounded-3xl border border-green-50 dark:border-gray-800">
-                    <h3 id="outputAmount" class="text-5xl font-black text-nat-green font-sans">0</h3>
-                    <p id="outputLabel" class="text-[10px] font-bold text-nat-accent uppercase mt-2 tracking-widest">JPY</p>
+        <div id="dining" class="tab-content active space-y-6">
+            <div class="flex justify-between items-center">
+                <h2 class="text-xl font-extrabold text-nat-dark uppercase">Recommended Bars</h2>
+                <div class="flex gap-2">
+                    <span class="bg-nat-light text-nat-green text-[10px] px-2 py-1 rounded font-bold">TOP 50 BARS</span>
                 </div>
             </div>
-            
-            <div class="p-4 bg-nat-dark rounded-2xl text-white flex justify-between items-center">
-                <div class="flex items-center gap-3">
-                    <i class="fa-solid fa-gem text-amber-400"></i>
-                    <div>
-                        <p class="text-[10px] font-bold opacity-70">Gems Points</p>
-                        <p class="font-black text-lg">1,250 PTS</p>
+            <div id="barContainer" class="space-y-6">
+                </div>
+        </div>
+
+        <div id="budget" class="tab-content space-y-6">
+            <div class="bg-nat-light p-6 rounded-3xl text-center">
+                <h2 class="text-lg font-extrabold text-nat-dark mb-4">Currency Swap</h2>
+                <div class="space-y-3">
+                    <input type="number" id="inputAmount" oninput="doConvert()" class="w-full p-4 bg-white rounded-xl text-xl font-bold" placeholder="กรอกจำนวนเงิน">
+                    <button onclick="swapCurrency()" class="text-nat-green font-bold text-xs underline">สลับหน่วย THB / JPY</button>
+                    <div class="py-8 bg-white rounded-2xl shadow-sm border border-green-50 mt-4">
+                        <h3 id="outputAmount" class="text-4xl font-black text-nat-green">0</h3>
+                        <p id="outputLabel" class="text-xs font-bold text-nat-accent uppercase tracking-widest mt-1">JPY</p>
                     </div>
                 </div>
-                <button class="bg-white/10 px-4 py-2 rounded-xl text-[10px] font-bold">REDEEM</button>
             </div>
         </div>
 
-        <div id="dining" class="tab-content space-y-6">
-            <div class="flex justify-between items-end">
-                <h2 class="text-xl font-extrabold">Personalized Spots</h2>
-                <span class="text-[10px] font-bold text-nat-green dark:text-green-400">Based on your Human Design</span>
-            </div>
-            <div id="personalList" class="space-y-6">
+        <div id="analytics" class="tab-content space-y-6">
+            <h2 class="text-xl font-extrabold text-nat-dark">AI Expense Tracker</h2>
+            <div class="bg-white p-5 rounded-3xl border border-gray-100 shadow-sm space-y-4">
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-[10px] font-bold text-gray-400 uppercase">ค่าตั๋วเครื่องบิน</label>
+                        <input type="number" id="expFlight" class="w-full p-3 bg-gray-50 rounded-xl mt-1" placeholder="0.00">
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-bold text-gray-400 uppercase">ค่าที่พัก</label>
+                        <input type="number" id="expHotel" class="w-full p-3 bg-gray-50 rounded-xl mt-1" placeholder="0.00">
+                    </div>
                 </div>
+                <div>
+                    <label class="text-[10px] font-bold text-gray-400 uppercase">ค่าอาหาร & บาร์</label>
+                    <input type="number" id="expFood" class="w-full p-3 bg-gray-50 rounded-xl mt-1" placeholder="0.00">
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-gray-400 uppercase">ค่าอื่นๆ (ช้อปปิ้ง/เดินทาง)</label>
+                    <input type="number" id="expOther" class="w-full p-3 bg-gray-50 rounded-xl mt-1" placeholder="0.00">
+                </div>
+                <button onclick="analyzeExpenses()" class="w-full bg-nat-green text-white font-black py-4 rounded-xl shadow-lg">Analyze My Spending</button>
+            </div>
+
+            <div id="aiInsight" class="hidden bg-nat-dark text-white p-6 rounded-3xl space-y-4">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-robot text-nat-accent text-2xl"></i>
+                    <p class="font-bold text-sm uppercase tracking-widest">AI Financial Insight</p>
+                </div>
+                <p id="insightText" class="text-xs leading-relaxed opacity-90"></p>
+                <div class="pt-4 border-t border-white/10 flex justify-between items-center">
+                    <div>
+                        <p class="text-[9px] font-bold uppercase opacity-50">Gems Points Earned</p>
+                        <p class="text-xl font-black text-amber-400">+500 Gems</p>
+                    </div>
+                    <i class="fa-solid fa-gem text-amber-400 text-3xl"></i>
+                </div>
+            </div>
         </div>
 
         <div id="checking" class="tab-content space-y-6">
-            <h2 class="text-xl font-extrabold">AI Expense Analytics</h2>
-            <div class="bg-white dark:bg-gray-900 p-6 rounded-3xl border border-gray-100 dark:border-gray-800">
-                <p class="text-xs font-bold text-gray-400 mb-4 uppercase">Last Trip: Tokyo Dec 2025</p>
-                <div class="flex items-end gap-2 h-32 mb-6">
-                    <div class="bg-nat-green flex-1 rounded-t-lg" style="height: 80%"></div>
-                    <div class="bg-nat-accent flex-1 rounded-t-lg" style="height: 40%"></div>
-                    <div class="bg-nat-dark flex-1 rounded-t-lg" style="height: 60%"></div>
-                    <div class="bg-gray-200 flex-1 rounded-t-lg" style="height: 20%"></div>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-xs">
-                        <span class="font-bold">Dining & Bars (40%)</span>
-                        <span class="text-nat-green font-black">12,500 THB</span>
-                    </div>
-                    <div class="flex justify-between text-xs">
-                        <span class="font-bold">Shopping (20%)</span>
-                        <span class="text-nat-accent font-black">6,200 THB</span>
-                    </div>
-                    <p class="text-[10px] text-gray-500 mt-4 italic font-medium border-t pt-3 border-gray-100 dark:border-gray-800">
-                        * คุณประหยัดเงินได้ 1,200 THB จากการแลกเงินตามเรทที่เราแนะนำ
-                    </p>
-                </div>
+            <h2 class="text-xl font-extrabold text-nat-dark uppercase">Trip Planner</h2>
+            <div class="bg-nat-light p-5 rounded-3xl space-y-3">
+                <input type="text" id="tripPlace" class="w-full p-4 bg-white rounded-xl border-none" placeholder="Destination">
+                <input type="time" id="tripTime" class="w-full p-4 bg-white rounded-xl border-none">
+                <button onclick="addTrip()" class="w-full bg-nat-green text-white font-black py-4 rounded-xl">Add to Plan</button>
             </div>
+            <div id="tripList" class="space-y-3"></div>
         </div>
 
-        <div id="booking" class="tab-content space-y-6">
-            <div class="flex justify-between items-center">
-                <h2 class="text-xl font-extrabold">Offline Bookings</h2>
-                <span class="text-[8px] bg-green-100 text-green-700 px-2 py-1 rounded-full font-bold">CACHED AVAILABLE</span>
+        <div id="safe" class="tab-content text-center py-10">
+            <div class="bg-red-50 p-10 rounded-[3rem] border border-red-100 mb-6">
+                <p class="text-4xl font-black text-gray-900">たすけてください</p>
+                <p class="text-xs text-gray-500 italic mt-2">กรุณาช่วยฉันด้วย (Tasukete kudasai)</p>
             </div>
-            <div class="bg-white dark:bg-gray-900 p-5 rounded-3xl border border-gray-100 dark:border-gray-800 shadow-sm flex items-center gap-4">
-                <div class="bg-nat-light dark:bg-nat-dark p-4 rounded-2xl text-nat-green"><i class="fa-solid fa-hotel"></i></div>
-                <div class="flex-1">
-                    <p class="text-[9px] font-bold text-gray-400 uppercase">Confirmed</p>
-                    <p class="font-extrabold text-sm">Park Hyatt Tokyo</p>
-                </div>
-                <button onclick="window.open('https://www.agoda.com')" class="bg-nat-green text-white text-[9px] font-black px-3 py-2 rounded-lg">AGODA</button>
-            </div>
-        </div>
-
-        <div id="safe" class="tab-content space-y-6 text-center">
-            <div class="bg-red-600 p-10 rounded-[3rem] text-white shadow-2xl">
-                <p class="text-5xl font-black leading-none mb-2">たすけて</p>
-                <p class="text-xs font-bold opacity-80 uppercase tracking-[.3em]">Help Me</p>
-            </div>
-            <a href="tel:110" class="flex items-center justify-center gap-3 w-full bg-black text-white font-black py-6 rounded-2xl shadow-xl border border-white/10">
-                <i class="fa-solid fa-phone-volume"></i>
-                <span>EMERGENCY CALL (110)</span>
-            </a>
+            <a href="tel:110" class="bg-nat-dark text-white font-black py-5 px-10 rounded-2xl shadow-xl inline-block">Call Police (Japan 110)</a>
         </div>
 
     </main>
 
     <script>
-        // --- 1. HUMAN DESIGN ENGINE & PERSONALIZATION ---
-        const restaurants = [
-            { name: "Bar Benfiddich", region: "Tokyo", type: "Bar", vibe: "Exclusive & Personal", hdMatch: ["Projector", "Reflector"], img: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=600" },
-            { name: "The SG Club", region: "Shibuya", type: "Bar", vibe: "High Energy & Social", hdMatch: ["Generator", "Manifesting Generator"], img: "https://images.unsplash.com/photo-1470337458703-46ad1756a187?q=80&w=600" },
-            { name: "Golden Gai", region: "Shinjuku", type: "Bar", vibe: "Free Spirit & Chaotic", hdMatch: ["Manifestor", "Manifesting Generator"], img: "https://images.unsplash.com/photo-1582236209995-f1262d596489?q=80&w=600" },
-            { name: "Ichiran Ramen", region: "Tokyo", type: "Restaurant", vibe: "Focus & Solitude", hdMatch: ["Projector", "Reflector", "Generator"], img: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?q=80&w=600" }
+        const bars = [
+            { name: "Bar Benfiddich", region: "Tokyo", vibe: "Farm-to-Glass, ลึกลับส่วนตัว", mbti: "INFJ, INTJ", price: "💰💰💰", img: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=600" },
+            { name: "Virtù", region: "Tokyo", vibe: "หรูหรา สไตล์ปารีเซียง", mbti: "ENFJ, ENTJ", price: "💰💰💰💰", img: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=600" },
+            { name: "The SG Club", region: "Shibuya", vibe: "บาร์ 2 สไตล์ในที่เดียว", mbti: "ENFP, ENTP", price: "💰💰💰", img: "https://images.unsplash.com/photo-1470337458703-46ad1756a187?q=80&w=600" },
+            { name: "Golden Gai", region: "Shinjuku", vibe: "ตรอกบาร์จิ๋วสุดคลาสสิก", mbti: "ESTP, ESFP", price: "💰", img: "https://images.unsplash.com/photo-1582236209995-f1262d596489?q=80&w=600" },
+            { name: "Bar Trench", region: "Ebisu", vibe: "เชี่ยวชาญด้าน Absinthe", mbti: "INTJ, INFP", price: "💰💰💰", img: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?q=80&w=600" }
         ];
 
-        function saveProfile() {
-            const name = document.getElementById('userName').value;
-            const hd = document.getElementById('userHD').value;
-            if(!name || !hd) return alert("กรุณาระบุข้อมูลให้ครบถ้วนครับ");
-            
-            localStorage.setItem('tp_name', name);
-            localStorage.setItem('tp_hd', hd);
-            
-            applyProfile();
-            document.getElementById('loginOverlay').style.display = 'none';
-            showSmartNotif(); // Trigger smart notif once profile is set
-        }
-
-        function applyProfile() {
-            const name = localStorage.getItem('tp_name') || "Traveler";
-            const hd = localStorage.getItem('tp_hd') || "";
-            
-            document.getElementById('welcomeText').innerText = `Hello, ${name}`;
-            document.getElementById('userBadge').innerText = hd || "Visitor";
-            
-            if(hd) {
-                const advices = {
-                    "Projector": "เน้นการพักผ่อนและการรอคอยที่เหมาะสม อย่าฝืนใช้พลังงาน",
-                    "Generator": "เลือกกิจกรรมที่คุณ 'ตอบสนอง' (Response) แล้วรู้สึกสนุก!",
-                    "Manifestor": "ให้อิสระกับตัวเองในการเปลี่ยนแผนได้เสมอ แจ้งคนรอบข้างก่อนทำ",
-                    "Manifesting Generator": "ทำหลายกิจกรรมได้พร้อมกัน แต่ต้องรอการตอบสนองก่อนนะ",
-                    "Reflector": "ให้เวลาตัวเองซึมซับบรรยากาศของสถานที่ก่อนตัดสินใจ"
-                };
-                document.getElementById('hdAdvice').innerText = advices[hd];
-                renderPersonalDining(hd);
-            }
-        }
-
-        function renderPersonalDining(hd) {
-            const list = document.getElementById('personalList');
-            list.innerHTML = "";
-            restaurants.forEach(res => {
-                if(res.hdMatch.includes(hd)) {
-                    list.innerHTML += `
-                    <div class="bg-white dark:bg-gray-900 rounded-[2rem] shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden">
-                        <img src="${res.img}" class="h-40 w-full object-cover">
-                        <div class="p-5">
-                            <h3 class="text-lg font-black uppercase tracking-tighter">${res.name}</h3>
-                            <p class="text-[10px] text-nat-accent font-bold uppercase tracking-widest">${res.region} | ${res.type}</p>
-                            <p class="text-xs text-gray-500 mt-2 italic">เหมาะสำหรับ ${hd} เพราะเป็นสถานที่แบบ ${res.vibe}</p>
-                            <button class="w-full mt-4 bg-nat-light dark:bg-nat-dark text-nat-dark dark:text-white py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest">Verify & Check-in</button>
+        function renderBars() {
+            const container = document.getElementById('barContainer');
+            bars.forEach(bar => {
+                const html = `
+                <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                    <img src="${bar.img}" class="h-44 w-full object-cover">
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-1">
+                            <h3 class="text-lg font-bold text-nat-dark uppercase tracking-tighter">${bar.name}</h3>
+                            <span class="text-nat-green font-bold text-sm font-sans">${bar.price}</span>
                         </div>
-                    </div>`;
-                }
+                        <p class="text-[10px] text-nat-accent font-bold uppercase tracking-widest mb-3">${bar.region}</p>
+                        <p class="text-xs text-gray-500 mb-4">${bar.vibe}</p>
+                        <div class="flex justify-between items-center border-t border-gray-50 pt-4">
+                            <span class="text-[9px] bg-nat-light text-nat-green px-2 py-1 rounded font-bold uppercase">${bar.mbti}</span>
+                            <button onclick="window.open('https://www.google.com/maps/search/${bar.name}')" class="text-nat-dark font-bold text-[10px] underline uppercase tracking-widest">Open Map</button>
+                        </div>
+                    </div>
+                </div>`;
+                container.insertAdjacentHTML('beforeend', html);
             });
         }
 
-        // --- 2. DARK MODE & UI ---
-        function toggleDarkMode() {
-            document.documentElement.classList.toggle('dark');
-            localStorage.setItem('tp_theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+        function analyzeExpenses() {
+            const f = parseFloat(document.getElementById('expFlight').value) || 0;
+            const h = parseFloat(document.getElementById('expHotel').value) || 0;
+            const fo = parseFloat(document.getElementById('expFood').value) || 0;
+            const o = parseFloat(document.getElementById('expOther').value) || 0;
+            
+            const total = f + h + fo + o;
+            const foodPercent = ((fo / total) * 100).toFixed(0);
+            
+            let insight = "";
+            if (foodPercent > 40) {
+                insight = `คุณใช้เงินกับอาหารและบาร์ไปถึง ${foodPercent}% ของงบทั้งหมด! คุณคือ "Experience Seeker" ตัวจริง ทริปนี้เน้นความสุขทางรสชาติเป็นหลัก ซึ่งดีมากสำหรับ Mental Health ครับ`;
+            } else if (f + h > total * 0.6) {
+                insight = `ค่าใช้จ่ายส่วนใหญ่หนักไปที่ความสบาย (ที่พักและตั๋ว) ครั้งหน้าลองมองหาดีลพิเศษล่วงหน้าเพื่อเพิ่มงบช้อปปิ้งดูนะครับ`;
+            } else {
+                insight = `การบริหารจัดการเงินของคุณสมดุลมาก! คุณมี Financial Mindset ที่ยอดเยี่ยมในการเดินทาง`;
+            }
+
+            document.getElementById('insightText').innerText = insight;
+            document.getElementById('aiInsight').classList.remove('hidden');
+            window.scrollTo(0, document.body.scrollHeight);
         }
 
-        // --- 3. SMART NOTIFICATION (Simulation) ---
-        function showSmartNotif() {
-            setTimeout(() => {
-                document.getElementById('notificationToast').classList.add('show');
-                // Auto hide after 8 seconds
-                setTimeout(hideNotif, 8000);
-            }, 3000);
-        }
-        function hideNotif() { document.getElementById('notificationToast').classList.remove('show'); }
-
-        // --- CORE FUNCTIONS (Modified) ---
+        // Core App Logic (Currency, Tabs, etc.)
         let currentRate = 0;
         let isThbToJpy = true;
 
@@ -276,40 +208,30 @@
             } catch (e) { currentRate = 4.25; }
         }
 
-        function swapCurrency() {
-            isThbToJpy = !isThbToJpy;
-            document.getElementById('inputAmount').placeholder = isThbToJpy ? "0.00 THB" : "0.00 JPY";
-            document.getElementById('outputLabel').innerText = isThbToJpy ? "JPY" : "THB";
-            doConvert();
-        }
-
         function doConvert() {
             const val = document.getElementById('inputAmount').value;
-            if(!val) return document.getElementById('outputAmount').innerText = "0";
+            if(!val) return document.getElementById('outputAmount').innerText = '0';
             const res = isThbToJpy ? (val * currentRate) : (val / currentRate);
             document.getElementById('outputAmount').innerText = parseInt(res).toLocaleString();
         }
 
-        function openTab(name) {
-            const tabs = document.getElementsByClassName("tab-content");
-            for(let t of tabs) t.style.display = 'none';
-            document.getElementById(name).style.display = 'block';
-            const btns = document.getElementsByClassName("nav-btn");
-            for(let b of btns) b.classList.remove('active-btn');
-            event.currentTarget.classList.add('active-btn');
-            window.scrollTo(0,0);
+        function swapCurrency() {
+            isThbToJpy = !isThbToJpy;
+            document.getElementById('outputLabel').innerText = isThbToJpy ? 'JPY' : 'THB';
+            doConvert();
         }
 
-        function toggleLogin() { document.getElementById('loginOverlay').style.display = 'flex'; }
-
-        // Initialization
-        if(localStorage.getItem('tp_hd')) {
-            document.getElementById('loginOverlay').style.display = 'none';
-            applyProfile();
-            showSmartNotif();
+        function openTab(tabName) {
+            const contents = document.getElementsByClassName("tab-content");
+            for (let c of contents) { c.style.display = "none"; }
+            document.getElementById(tabName).style.display = "block";
+            const buttons = document.getElementsByClassName("nav-btn");
+            for (let b of buttons) { b.classList.remove("active-btn"); }
+            event.currentTarget.classList.add("active-btn");
         }
-        if(localStorage.getItem('tp_theme') === 'dark') document.documentElement.classList.add('dark');
+
         fetchRate();
+        renderBars();
     </script>
 </body>
 </html>
