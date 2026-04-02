@@ -31,7 +31,6 @@
         .active { display: block; }
         .nav-btn.active-btn { border-bottom: 3px solid #2d6a4f; color: #2d6a4f; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        input:focus, select:focus { border-color: #2d6a4f !important; outline: none; }
         .filter-active { background-color: #1b4332 !important; color: white !important; }
     </style>
 </head>
@@ -44,7 +43,7 @@
                     <h1 class="text-3xl font-black font-sans uppercase tracking-tighter text-white">Nature Power</h1>
                     <p class="text-[10px] font-bold text-green-200 uppercase tracking-[0.2em]">Craftaway.space 2026</p>
                 </div>
-                <button onclick="toggleLogin()" class="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/30"><i class="fa-solid fa-user"></i></button>
+                <button onclick="alert('Creative Access Activated')" class="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/30"><i class="fa-solid fa-user"></i></button>
             </div>
         </div>
     </div>
@@ -60,8 +59,8 @@
     <main class="p-5">
         <div id="dining" class="tab-content active space-y-6">
             <div class="flex justify-between items-center">
-                <h2 class="text-xl font-extrabold text-nat-dark uppercase">Recommended</h2>
-                <div class="flex gap-1 overflow-x-auto no-scrollbar">
+                <h2 class="text-xl font-extrabold text-nat-dark uppercase tracking-tight">Recommended</h2>
+                <div class="flex gap-1">
                     <button onclick="filterByCreative('All')" class="filter-btn filter-active px-3 py-1 rounded-full text-[9px] font-bold bg-gray-100 text-gray-500 uppercase">All</button>
                     <button onclick="filterByCreative('Music Lover')" class="filter-btn px-3 py-1 rounded-full text-[9px] font-bold bg-gray-100 text-gray-500 uppercase">Music</button>
                     <button onclick="filterByCreative('Art Collector')" class="filter-btn px-3 py-1 rounded-full text-[9px] font-bold bg-gray-100 text-gray-500 uppercase">Art</button>
@@ -69,25 +68,17 @@
             </div>
             <div class="relative">
                 <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-gray-300 text-xs"></i>
-                <input type="text" id="placeSearch" onkeyup="searchPlaces()" placeholder="ค้นหาชื่อร้านหรือย่าน..." class="w-full pl-10 pr-4 py-3 bg-gray-50 rounded-2xl text-xs font-bold border border-transparent">
+                <input type="text" id="placeSearch" onkeyup="searchPlaces()" placeholder="ค้นหาชื่อร้านหรือย่าน..." class="w-full pl-10 pr-4 py-3 bg-gray-50 rounded-2xl text-xs font-bold border border-transparent focus:border-nat-green outline-none transition-all">
             </div>
             <div id="restaurantContainer" class="space-y-6"></div>
         </div>
 
         <div id="community" class="tab-content space-y-6">
-            <div class="flex justify-between items-center">
-                <h2 class="text-xl font-extrabold text-nat-dark uppercase">Creator Stories</h2>
-                <button class="bg-nat-green text-white px-4 py-1.5 rounded-full text-[10px] font-bold">+ New Post</button>
-            </div>
-            <div class="bg-white rounded-3xl shadow-sm border border-gray-50 overflow-hidden">
+            <h2 class="text-xl font-extrabold text-nat-dark uppercase">Creator Stories</h2>
+            <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
                 <img src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=600" class="h-48 w-full object-cover">
-                <div class="p-5">
-                    <div class="flex items-center gap-2 mb-3">
-                        <div class="w-6 h-6 rounded-full bg-nat-accent"></div>
-                        <span class="text-xs font-bold text-gray-700">@NatureCreator</span>
-                    </div>
-                    <h3 class="font-bold text-sm mb-1 uppercase tracking-tight">Vibe check: Shinjuku secret bars</h3>
-                    <p class="text-[11px] text-gray-500 leading-relaxed italic">รวบรวมพิกัดบาร์ที่เหมาะกับคน Human Design: Projector ที่สุด...</p>
+                <div class="p-5 text-center">
+                    <p class="text-sm font-bold text-gray-600">Coming Soon: แชร์ประสบการณ์จากชาว Creative</p>
                 </div>
             </div>
         </div>
@@ -104,77 +95,70 @@
                         <option value="Transport">การเดินทาง</option>
                     </select>
                 </div>
-                <input type="number" id="expAmount" class="w-full p-4 bg-white rounded-xl text-lg font-black" placeholder="0.00">
-                <button onclick="addExpense()" class="w-full bg-nat-green text-white font-black py-4 rounded-xl shadow-lg uppercase text-xs tracking-widest">Add Expense</button>
+                <input type="number" id="expAmount" class="w-full p-4 bg-white rounded-xl text-lg font-black" placeholder="จำนวนเงิน (THB)">
+                <button onclick="addExpense()" class="w-full bg-nat-green text-white font-black py-4 rounded-xl shadow-lg uppercase text-xs">Add Expense</button>
             </div>
             <div id="expenseList" class="space-y-2"></div>
             <div id="aiInsightBox" class="hidden bg-nat-dark text-white p-6 rounded-3xl space-y-3">
-                <p class="text-[10px] font-bold text-nat-accent uppercase">AI Financial Assistant</p>
                 <p id="insightText" class="text-xs italic"></p>
             </div>
         </div>
 
-        <div id="booking" class="tab-content space-y-8">
+        <div id="booking" class="tab-content space-y-6">
             <h2 class="text-xl font-extrabold text-nat-dark uppercase">Track & Book</h2>
-            
-            <div class="bg-white p-5 rounded-3xl border border-gray-100 shadow-sm flex gap-2">
-                <input type="text" id="flightNo" class="flex-1 p-4 bg-gray-50 rounded-xl font-bold uppercase text-sm" placeholder="Flight No.">
-                <button onclick="trackFlight()" class="bg-nat-green text-white px-6 rounded-xl font-black text-xs">Track</button>
-            </div>
-
             <div class="grid grid-cols-1 gap-3">
-                <div onclick="window.open('https://th.trip.com')" class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex justify-between items-center cursor-pointer hover:bg-gray-50 transition-colors">
-                    <div class="flex items-center gap-3">
-                        <i class="fa-solid fa-plane-departure text-blue-500"></i>
-                        <span class="font-bold text-sm text-blue-600 italic">Trip.com</span>
-                    </div>
-                    <i class="fa-solid fa-chevron-right text-gray-200"></i>
+                <div onclick="window.open('https://th.trip.com')" class="bg-white p-5 rounded-2xl border border-gray-100 flex justify-between items-center cursor-pointer">
+                    <span class="font-bold text-blue-600">Trip.com</span> <i class="fa-solid fa-chevron-right text-gray-300"></i>
                 </div>
-
-                <div onclick="window.open('https://www.booking.com')" class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex justify-between items-center cursor-pointer hover:bg-gray-50 transition-colors">
-                    <div class="flex items-center gap-3">
-                        <i class="fa-solid fa-hotel text-indigo-700"></i>
-                        <span class="font-bold text-sm text-indigo-700 italic">Booking.com</span>
-                    </div>
-                    <i class="fa-solid fa-chevron-right text-gray-200"></i>
+                <div onclick="window.open('https://www.booking.com')" class="bg-white p-5 rounded-2xl border border-gray-100 flex justify-between items-center cursor-pointer">
+                    <span class="font-bold text-indigo-700">Booking.com</span> <i class="fa-solid fa-chevron-right text-gray-300"></i>
                 </div>
-
-                <div onclick="window.open('https://www.agoda.com')" class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex justify-between items-center cursor-pointer hover:bg-gray-50 transition-colors">
-                    <div class="flex items-center gap-3">
-                        <i class="fa-solid fa-bed text-orange-500"></i>
-                        <span class="font-bold text-sm text-orange-600">Agoda</span>
-                    </div>
-                    <i class="fa-solid fa-chevron-right text-gray-200"></i>
+                <div onclick="window.open('https://www.agoda.com')" class="bg-white p-5 rounded-2xl border border-gray-100 flex justify-between items-center cursor-pointer">
+                    <span class="font-bold text-orange-600">Agoda</span> <i class="fa-solid fa-chevron-right text-gray-300"></i>
                 </div>
-
-                <div onclick="window.open('https://www.klook.com')" class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex justify-between items-center cursor-pointer hover:bg-gray-50 transition-colors">
-                    <div class="flex items-center gap-3">
-                        <i class="fa-solid fa-ticket text-orange-500"></i>
-                        <span class="font-bold text-sm text-orange-500 font-sans uppercase italic">Klook</span>
-                    </div>
-                    <i class="fa-solid fa-chevron-right text-gray-200"></i>
+                <div onclick="window.open('https://www.klook.com')" class="bg-white p-5 rounded-2xl border border-gray-100 flex justify-between items-center cursor-pointer">
+                    <span class="font-bold text-orange-500 uppercase">Klook</span> <i class="fa-solid fa-chevron-right text-gray-300"></i>
                 </div>
             </div>
         </div>
-    </main>
 
-    <footer class="p-10 text-center bg-gray-50">
-        <p class="text-[9px] font-bold text-gray-400 tracking-[0.4em] uppercase">© Craftaway.space 2026</p>
-    </footer>
+        <div id="buddy" class="tab-content space-y-8">
+            <h2 class="text-xl font-extrabold text-nat-dark uppercase">Travel Buddy</h2>
+            <div class="bg-nat-light p-8 rounded-[2.5rem] text-center border border-green-100">
+                <p class="text-xs font-bold text-nat-green mb-4">ค้นหาเพื่อนร่วมทริปที่มี Vibe เดียวกัน</p>
+                <button class="w-full bg-nat-dark text-white font-black py-4 rounded-2xl uppercase text-xs">Find Buddy</button>
+            </div>
+        </div>
+    </main>
 
     <script>
         let allPlaces = [];
         let currentFilter = 'All';
         let expenses = [];
 
+        // ฟังก์ชันดึงข้อมูลจาก data.json
         async function loadData() {
             try {
-                const res = await fetch('data.json');
-                if (!res.ok) throw new Error();
-                allPlaces = await res.json();
+                const response = await fetch('data.json');
+                if (!response.ok) throw new Error();
+                const rawData = await response.json();
+                
+                // แปลง Key ภาษาไทยจาก JSON เป็นภาษาอังกฤษเพื่อให้โค้ดใช้งานได้
+                allPlaces = rawData.map(item => ({
+                    name: item["ชื่อร้าน"] || item.name,
+                    type: item["ประเภท"] || item.type,
+                    area: item["ที่อยู่"] || item.area,
+                    vibe: item["บรรยากาศ / Vibe"] || item.vibe,
+                    mbti: item["MBTI ที่เหมาะ"] || item.mbti,
+                    hd: item["Human Design"] || item.hd,
+                    price: item["ราคา"] || item.price,
+                    filter: item.filter || "Art Collector", // Default สำหรับร้านพรีเมียม
+                    energy: item.energy || "Low (Deep)"
+                }));
+                
                 renderRestaurants(allPlaces);
             } catch (e) {
-                document.getElementById('restaurantContainer').innerHTML = "<p class='text-center text-red-500 py-10'>ไม่พบข้อมูล data.json</p>";
+                document.getElementById('restaurantContainer').innerHTML = "<p class='text-center py-10 text-red-500'>หาไฟล์ data.json ไม่พบ หรือรูปแบบไฟล์ไม่ถูกต้อง</p>";
             }
         }
 
@@ -183,12 +167,11 @@
             container.innerHTML = "";
             data.forEach(res => {
                 const themeTag = res.filter === 'Music Lover' ? 'bg-music-theme' : (res.filter === 'Art Collector' ? 'bg-art-theme' : 'bg-nat-green');
-                const themeBorder = res.filter === 'Music Lover' ? 'border-music-theme' : (res.filter === 'Art Collector' ? 'border-art-theme' : 'border-gray-100');
                 container.innerHTML += `
-                <div class="bg-white rounded-3xl shadow-sm border-l-4 ${themeBorder} border-y border-r border-gray-50 overflow-hidden">
-                    <img src="${res.img || 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=600'}" class="h-40 w-full object-cover">
+                <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden transition-all active:scale-95">
+                    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=600" class="h-40 w-full object-cover">
                     <div class="p-5">
-                        <div class="flex justify-between items-start mb-1">
+                        <div class="flex justify-between items-start mb-2">
                             <h3 class="text-lg font-bold text-nat-dark uppercase tracking-tighter">${res.name}</h3>
                             <span class="text-nat-green font-bold text-xs">${res.price}</span>
                         </div>
@@ -202,7 +185,7 @@
                                 <span class="text-[8px] bg-nat-light text-nat-green px-2 py-1 rounded font-bold uppercase">${res.energy}</span>
                                 <span class="text-[8px] bg-indigo-50 text-indigo-700 px-2 py-1 rounded font-bold uppercase">${res.hd}</span>
                             </div>
-                            <button onclick="window.open('https://www.google.com/maps/search/${encodeURIComponent(res.name + ' ' + res.area)}')" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-nat-dark"><i class="fa-solid fa-location-dot text-xs"></i></button>
+                            <button onclick="window.open('https://www.google.com/maps/search/${res.name} ${res.area}')" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-nat-dark"><i class="fa-solid fa-location-dot text-xs"></i></button>
                         </div>
                     </div>
                 </div>`;
@@ -232,7 +215,7 @@
             const date = document.getElementById('expDate').value;
             const cat = document.getElementById('expCat').value;
             const amt = document.getElementById('expAmount').value;
-            if(!date || !amt) return;
+            if(!date || !amt) return alert("กรุณาใส่ข้อมูลให้ครบ");
             expenses.push({ date, cat, amt: parseFloat(amt) });
             renderExpenses();
             analyzeExpenses();
@@ -253,11 +236,6 @@
             document.getElementById('aiInsightBox').classList.remove('hidden');
             const total = expenses.reduce((sum, e) => sum + e.amt, 0);
             document.getElementById('insightText').innerText = `รวมยอดใช้จ่าย ${total.toLocaleString()} THB ระบบวิเคราะห์ว่าคุณเน้นประสบการณ์คุณภาพตามแบบฉบับ Creative Traveler...`;
-        }
-
-        function trackFlight() {
-            const f = document.getElementById('flightNo').value;
-            if(f) window.open(`https://www.google.com/search?q=flight+status+${f}`, '_blank');
         }
 
         loadData();
